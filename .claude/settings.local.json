@@ -3,7 +3,10 @@
     "allow": [
       "Bash(taskkill //F //IM node.exe)",
       "Bash(node -e \"require\\(''motion/react''\\)\")",
-      "Bash(pnpm install:*)"
+      "Bash(pnpm install:*)",
+      "Bash(cp c:/frely-web/logo/headericon.png c:/frely-web/public/favicon.png)",
+      "Bash(cp c:/frely-web/logo/frely.png c:/frely-web/public/og-image.png)",
+      "Bash(npx next:*)"
     ]
   }
 }

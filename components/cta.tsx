@@ -17,7 +17,7 @@ export function CTA() {
               Empezar gratis
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Button>
-            <Button size="lg" variant="outline" className="h-12 px-6 text-[15px] border-background/20 text-background hover:bg-background/10 hover:text-background">
+            <Button size="lg" variant="outline" className="h-12 px-6 text-[15px] border-background/20 text-black hover:bg-background/10 hover:text-background">
               Hablar con ventas
             </Button>
           </div>

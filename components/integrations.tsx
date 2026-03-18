@@ -1,24 +1,12 @@
 "use client"
 
 import { useRef } from "react"
+import Image from "next/image"
 import { motion, useInView } from "motion/react"
 
 function FrelyLogo() {
   return (
-    <div className="flex items-center gap-0.5">
-      <span className="text-xl font-semibold text-neutral-900 tracking-tight">frely</span>
-      <svg
-        width="14"
-        height="12"
-        viewBox="0 0 16 14"
-        fill="none"
-        className="-mt-2.5"
-        aria-hidden="true"
-      >
-        <rect x="0" y="0" width="13" height="9" rx="2" fill="#2ecc71" />
-        <polygon points="2.5,9 5.5,9 2.5,12.5" fill="#2ecc71" />
-      </svg>
-    </div>
+    <Image src="/headericon.png" alt="Frely" width={80} height={80} className="rounded-2xl w-full h-full object-cover" />
   )
 }
 
