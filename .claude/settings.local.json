@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(taskkill //F //IM node.exe)",
-      "Bash(node -e \"require\\(''motion/react''\\)\")"
+      "Bash(node -e \"require\\(''motion/react''\\)\")",
+      "Bash(pnpm install:*)"
     ]
   }
 }
