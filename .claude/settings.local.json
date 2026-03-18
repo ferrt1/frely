@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Read(//c/ai/**)"
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(node -e \"require\\(''motion/react''\\)\")"
     ]
   }
 }

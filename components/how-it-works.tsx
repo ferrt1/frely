@@ -1,61 +1,67 @@
-import { MessageSquare, Settings, Clock } from "lucide-react"
+import { MessageSquare, Settings, Zap, Bot } from "lucide-react"
 
-const steps = [
+const features = [
   {
-    number: "1",
-    title: "Conectás tu canal",
-    description: "WhatsApp, Instagram o Telegram. Integrá en minutos sin conocimientos técnicos.",
     icon: MessageSquare,
+    label: "Multicanal",
+    title: "Conecta todos tus canales",
+    description: "WhatsApp, Instagram y Telegram en un solo lugar. Integra en minutos sin conocimientos tecnicos.",
   },
   {
-    number: "2",
-    title: "Configurás las respuestas",
-    description: "Personalizá los mensajes automáticos según tu negocio y servicios.",
+    icon: Bot,
+    title: "IA que entiende a tus clientes",
+    label: "Inteligencia Artificial",
+    description: "Respuestas naturales y personalizadas que se adaptan al tono de tu negocio. Como si fueras vos.",
+  },
+  {
     icon: Settings,
+    label: "Personalizable",
+    title: "Configura a tu medida",
+    description: "Define horarios, precios, servicios y respuestas. Tu asistente virtual sabe todo sobre tu negocio.",
   },
   {
-    number: "3",
-    title: "Tu negocio atiende solo",
-    description: "Las 24 horas del día, los 7 días de la semana. Sin perder ningún cliente.",
-    icon: Clock,
+    icon: Zap,
+    label: "Automatico",
+    title: "Funciona las 24 horas",
+    description: "Nunca mas pierdas un cliente por no responder a tiempo. Tu negocio atiende incluso mientras dormis.",
   },
 ]
 
 export function HowItWorks() {
   return (
-    <section id="como-funciona" className="bg-secondary py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
-            Cómo funciona
+    <section id="como-funciona" className="bg-background py-14 sm:py-20">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="max-w-2xl">
+          <p className="text-sm font-medium text-accent uppercase tracking-wider">
+            Producto
+          </p>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">
+            Atencion automatica.<br />
+            Resultados reales.
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            En solo 3 pasos, tu negocio empieza a responder automáticamente
+          <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+            Herramientas para que tu equipo (de uno) pueda ofrecer atencion profesional y escalar sin contratar.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 sm:grid-cols-3">
-          {steps.map((step) => (
+        <div className="mt-16 grid gap-6 sm:grid-cols-2">
+          {features.map((feature, index) => (
             <div
-              key={step.number}
-              className="relative bg-background rounded-2xl p-8 shadow-sm border border-border hover:shadow-md transition-shadow"
+              key={index}
+              className="group relative bg-secondary/50 rounded-2xl p-6 sm:p-8 border border-border/50 hover:border-border hover:bg-secondary transition-all duration-300"
             >
-              {/* Step Number */}
-              <div className="absolute -top-4 left-8 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">
-                {step.number}
-              </div>
-
-              {/* Icon */}
-              <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                <step.icon className="h-6 w-6 text-primary" />
-              </div>
+              {/* Label */}
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                <feature.icon className="h-3.5 w-3.5" />
+                {feature.label}
+              </span>
 
               {/* Content */}
-              <h3 className="mt-6 text-xl font-semibold text-foreground">
-                {step.title}
+              <h3 className="mt-4 text-xl font-semibold text-foreground">
+                {feature.title}
               </h3>
-              <p className="mt-3 text-muted-foreground leading-relaxed">
-                {step.description}
+              <p className="mt-2 text-muted-foreground leading-relaxed">
+                {feature.description}
               </p>
             </div>
           ))}
