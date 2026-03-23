@@ -12,8 +12,8 @@ function FrelyLogo() {
         className="-mt-2.5"
         aria-hidden="true"
       >
-        <rect x="0" y="0" width="13" height="9" rx="2" className="fill-accent" />
-        <polygon points="2.5,9 5.5,9 2.5,12.5" className="fill-accent" />
+        <rect x="0" y="0" width="13" height="9" rx="2" fill="#2ecc71" />
+        <polygon points="2.5,9 5.5,9 2.5,12.5" fill="#2ecc71" />
       </svg>
     </div>
   )

@@ -16,8 +16,8 @@ function FrelyLogo() {
         className="-mt-2.5 transition-transform group-hover:translate-x-0.5"
         aria-hidden="true"
       >
-        <rect x="0" y="0" width="13" height="9" rx="2" className="fill-accent" />
-        <polygon points="2.5,9 5.5,9 2.5,12.5" className="fill-accent" />
+        <rect x="0" y="0" width="13" height="9" rx="2" fill="#2ecc71" />
+        <polygon points="2.5,9 5.5,9 2.5,12.5" fill="#2ecc71" />
       </svg>
     </a>
   )
@@ -53,7 +53,7 @@ export function Navbar() {
 
           <div className="hidden md:flex md:items-center md:gap-3">
             <a
-              href="#"
+              href="/login"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Iniciar sesion
@@ -90,7 +90,7 @@ export function Navbar() {
               ))}
               <div className="mt-3 pt-3 border-t border-border/50 flex flex-col gap-2">
                 <a
-                  href="#"
+                  href="/login"
                   className="px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Iniciar sesion
