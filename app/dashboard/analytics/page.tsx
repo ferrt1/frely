@@ -1,12 +1,13 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select"
 import {
-  MessageSquare, TrendingUp, TrendingDown, Bot, ThumbsUp, ThumbsDown, Zap, Calendar,
+  MessageSquare, TrendingUp, TrendingDown, Bot, ThumbsUp, ThumbsDown, Zap, Calendar, Star, Minus,
 } from "lucide-react"
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -44,8 +45,8 @@ const topQueries = [
 
 const satisfactionData = [
   { name: "Positiva", value: 78, fill: "#2ecc71" },
-  { name: "Neutral", value: 15, fill: "hsl(var(--muted-foreground))" },
-  { name: "Negativa", value: 7, fill: "hsl(var(--destructive))" },
+  { name: "Neutral", value: 15, fill: "var(--muted-foreground)" },
+  { name: "Negativa", value: 7, fill: "var(--destructive)" },
 ]
 
 const responseTimeData = [
@@ -53,10 +54,32 @@ const responseTimeData = [
   { hour: "12-16", avg: 3.1 }, { hour: "16-20", avg: 2.9 }, { hour: "20-24", avg: 1.5 },
 ]
 
+const recentFeedback = [
+  { stars: 5, comment: "Excelente atención, me resolvió todo al toque. Re útil el bot.", name: "Martina G.", date: "22 Mar 2026", channel: "WhatsApp" },
+  { stars: 4, comment: "Bastante bien, me contestó rápido lo del envío. Solo tardó un toque en entender mi pregunta.", name: "Facundo R.", date: "21 Mar 2026", channel: "Instagram" },
+  { stars: 5, comment: "Genial la atención automática, no tuve que esperar nada. 10 puntos.", name: "Camila S.", date: "20 Mar 2026", channel: "WhatsApp" },
+  { stars: 3, comment: "Más o menos, me derivó a un agente cuando le pregunté por devoluciones. Podría mejorar.", name: "Tomás L.", date: "19 Mar 2026", channel: "Telegram" },
+  { stars: 5, comment: "Buenísimo, me pasó el link de seguimiento del pedido en segundos. Muy práctico.", name: "Valentina P.", date: "18 Mar 2026", channel: "WhatsApp" },
+]
+
+const qualityMetrics = [
+  { label: "Tasa de resolución en primer contacto", value: 78, suffix: "%" },
+  { label: "Tiempo promedio de resolución", value: 64, suffix: "3.2 min" },
+  { label: "Tasa de abandono", value: 5, suffix: "%" },
+  { label: "Conversaciones re-abiertas", value: 12, suffix: "%" },
+]
+
+const channelColors: Record<string, string> = {
+  WhatsApp: "bg-[#25D366]/10 text-[#25D366] border-[#25D366]/20",
+  Instagram: "bg-[#E4405F]/10 text-[#E4405F] border-[#E4405F]/20",
+  Telegram: "bg-[#0088cc]/10 text-[#0088cc] border-[#0088cc]/20",
+}
+
 const tooltipStyle = {
-  backgroundColor: "hsl(var(--background))",
-  border: "1px solid hsl(var(--border))",
+  backgroundColor: "var(--background)",
+  border: "1px solid var(--border)",
   borderRadius: "8px",
+  color: "var(--foreground)",
   fontSize: "12px",
 }
 
@@ -122,11 +145,11 @@ export default function AnalyticsPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={dailyMessages}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
-                  <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <XAxis dataKey="day" tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={tooltipStyle} />
                   <Bar dataKey="ia" stackId="a" fill="#2ecc71" radius={[0, 0, 0, 0]} name="IA" />
-                  <Bar dataKey="humano" stackId="a" fill="hsl(var(--foreground))" radius={[4, 4, 0, 0]} name="Humano" opacity={0.6} />
+                  <Bar dataKey="humano" stackId="a" fill="var(--foreground)" radius={[4, 4, 0, 0]} name="Humano" opacity={0.6} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -147,8 +170,8 @@ export default function AnalyticsPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={channelTrend}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                  <XAxis dataKey="month" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <XAxis dataKey="month" tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={tooltipStyle} />
                   <Line type="monotone" dataKey="whatsapp" stroke="#25D366" strokeWidth={2} dot={false} name="WhatsApp" />
                   <Line type="monotone" dataKey="instagram" stroke="#E4405F" strokeWidth={2} dot={false} name="Instagram" />
@@ -235,12 +258,122 @@ export default function AnalyticsPage() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                <XAxis dataKey="hour" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} tickLine={false} unit="s" />
+                <XAxis dataKey="hour" tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} unit="s" />
                 <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}s`, "Promedio"]} />
                 <Area type="monotone" dataKey="avg" stroke="#2ecc71" fill="url(#gTime)" strokeWidth={2} name="Tiempo" />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Satisfacción del cliente */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* NPS Score */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Encuestas de satisfacción</CardTitle>
+            <CardDescription>Net Promoter Score basado en encuestas post-conversación</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="relative">
+                <span className="text-5xl font-bold">72</span>
+                <span className="absolute -top-1 -right-5 h-3 w-3 rounded-full bg-[#2ecc71]" />
+              </div>
+              <div className="space-y-0.5">
+                <p className="text-sm font-medium text-[#2ecc71]">Excelente</p>
+                <p className="text-xs text-muted-foreground">NPS Score</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex h-4 w-full overflow-hidden rounded-full">
+                <div className="bg-[#2ecc71] h-full" style={{ width: "58%" }} />
+                <div className="bg-amber-400 h-full" style={{ width: "24%" }} />
+                <div className="bg-destructive h-full" style={{ width: "18%" }} />
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-sm bg-[#2ecc71]" />
+                  <span className="text-muted-foreground">Promotores</span>
+                  <span className="font-medium">58%</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-sm bg-amber-400" />
+                  <span className="text-muted-foreground">Pasivos</span>
+                  <span className="font-medium">24%</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-sm bg-destructive" />
+                  <span className="text-muted-foreground">Detractores</span>
+                  <span className="font-medium">18%</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Comentarios recientes */}
+        <Card className="lg:col-span-2">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Comentarios recientes</CardTitle>
+            <CardDescription>Feedback directo de tus clientes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentFeedback.map((fb, i) => (
+                <div key={i} className="flex gap-3 pb-3 border-b last:border-0 last:pb-0">
+                  <div className="flex-1 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-0.5">
+                        {Array.from({ length: 5 }).map((_, s) => (
+                          <Star
+                            key={s}
+                            className={`h-3.5 w-3.5 ${s < fb.stars ? "fill-amber-400 text-amber-400" : "text-muted-foreground/30"}`}
+                          />
+                        ))}
+                      </div>
+                      <Badge variant="outline" className={`text-[10px] px-1.5 py-0 h-4 ${channelColors[fb.channel] || ""}`}>
+                        {fb.channel}
+                      </Badge>
+                    </div>
+                    <p className="text-sm">{fb.comment}</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <span className="font-medium">{fb.name}</span>
+                      <span>·</span>
+                      <span>{fb.date}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Métricas de calidad */}
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base">Métricas de calidad</CardTitle>
+          <CardDescription>Indicadores clave de rendimiento del servicio</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {qualityMetrics.map((m, i) => (
+              <div key={i} className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">{m.label}</span>
+                  <span className="text-sm font-medium">{m.suffix === "%" ? `${m.value}%` : m.suffix}</span>
+                </div>
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all ${m.value >= 60 ? "bg-[#2ecc71]" : m.value >= 30 ? "bg-amber-400" : "bg-destructive"}`}
+                    style={{ width: `${m.value}%` }}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>

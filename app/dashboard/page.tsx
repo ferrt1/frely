@@ -64,10 +64,11 @@ function MetricCard({ title, value, change, changeType, icon: Icon, desc }: {
 }
 
 const tooltipStyle = {
-  backgroundColor: "hsl(var(--background))",
-  border: "1px solid hsl(var(--border))",
+  backgroundColor: "var(--background)",
+  border: "1px solid var(--border)",
   borderRadius: "8px",
   fontSize: "12px",
+  color: "var(--foreground)",
 }
 
 function formatChange(current: number, previous: number): { change: string; type: "up" | "down" } {
@@ -252,8 +253,8 @@ export default function DashboardPage() {
                 <AreaChart data={weeklyData}>
                   <defs>
                     <linearGradient id="gMsgs" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--foreground))" stopOpacity={0.1} />
-                      <stop offset="95%" stopColor="hsl(var(--foreground))" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--foreground)" stopOpacity={0.1} />
+                      <stop offset="95%" stopColor="var(--foreground)" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="gResolved" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#2ecc71" stopOpacity={0.2} />
@@ -261,10 +262,10 @@ export default function DashboardPage() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                  <XAxis dataKey="name" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={false} tickLine={false} />
+                  <XAxis dataKey="name" tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={tooltipStyle} />
-                  <Area type="monotone" dataKey="mensajes" stroke="hsl(var(--foreground))" fillOpacity={1} fill="url(#gMsgs)" strokeWidth={2} name="Recibidos" />
+                  <Area type="monotone" dataKey="mensajes" stroke="var(--foreground)" fillOpacity={1} fill="url(#gMsgs)" strokeWidth={2} name="Recibidos" />
                   <Area type="monotone" dataKey="resueltos" stroke="#2ecc71" fillOpacity={1} fill="url(#gResolved)" strokeWidth={2} name="Resueltos IA" />
                 </AreaChart>
               </ResponsiveContainer>
@@ -364,10 +365,10 @@ export default function DashboardPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={hourlyData}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
-                  <XAxis dataKey="hour" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <XAxis dataKey="hour" tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v} msgs`, "Mensajes"]} />
-                  <Bar dataKey="msgs" fill="hsl(var(--foreground))" radius={[4, 4, 0, 0]} opacity={0.8} />
+                  <Bar dataKey="msgs" fill="var(--foreground)" radius={[4, 4, 0, 0]} opacity={0.8} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
