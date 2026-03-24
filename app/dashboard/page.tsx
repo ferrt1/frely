@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,42 +9,28 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   MessageSquare, TrendingUp, TrendingDown, Users, CheckCircle2, Clock,
-  ArrowUpRight, MoreHorizontal, CheckCircle, XCircle, AlertCircle, Bot,
+  ArrowUpRight, CheckCircle, XCircle, AlertCircle, Bot,
 } from "lucide-react"
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell,
 } from "recharts"
+import {
+  getDashboardOverview, getMessagesWeekly, getMessagesHourly,
+  getRecentConversations, getChannels,
+} from "@/lib/api"
 
-const messagesData = [
-  { name: "Lun", mensajes: 120, resueltos: 98 },
-  { name: "Mar", mensajes: 185, resueltos: 160 },
-  { name: "Mié", mensajes: 165, resueltos: 142 },
-  { name: "Jue", mensajes: 210, resueltos: 195 },
-  { name: "Vie", mensajes: 245, resueltos: 220 },
-  { name: "Sáb", mensajes: 180, resueltos: 165 },
-  { name: "Dom", mensajes: 95, resueltos: 88 },
-]
+const testerNames: Record<string, string> = {
+  "67": "Fer",
+  "25": "Nahu",
+  "23": "Franco",
+}
 
-const channelData = [
-  { name: "WhatsApp", value: 58, color: "#25D366" },
-  { name: "Instagram", value: 28, color: "#E4405F" },
-  { name: "Telegram", value: 14, color: "#0088cc" },
-]
-
-const hourlyData = [
-  { hour: "06", msgs: 8 }, { hour: "08", msgs: 25 }, { hour: "10", msgs: 45 },
-  { hour: "12", msgs: 38 }, { hour: "14", msgs: 52 }, { hour: "16", msgs: 48 },
-  { hour: "18", msgs: 62 }, { hour: "20", msgs: 35 }, { hour: "22", msgs: 15 },
-]
-
-const recentConversations = [
-  { name: "María García", message: "Hola, quiero saber el precio del café especial", time: "hace 5 min", channel: "WhatsApp", channelColor: "#25D366", status: "resolved" },
-  { name: "Juan Pérez", message: "¿Hacen envíos a Córdoba?", time: "hace 12 min", channel: "Instagram", channelColor: "#E4405F", status: "pending" },
-  { name: "Carlos López", message: "Necesito cambiar mi pedido #4521", time: "hace 23 min", channel: "WhatsApp", channelColor: "#25D366", status: "escalated" },
-  { name: "Ana Rodríguez", message: "¿Cuál es el horario de atención?", time: "hace 35 min", channel: "Telegram", channelColor: "#0088cc", status: "resolved" },
-  { name: "Diego Martínez", message: "Quiero hacer un reclamo", time: "hace 1h", channel: "WhatsApp", channelColor: "#25D366", status: "escalated" },
-]
+const channelColors: Record<string, string> = {
+  WhatsApp: "#25D366",
+  Instagram: "#E4405F",
+  Telegram: "#0088cc",
+}
 
 const statusConfig: Record<string, { label: string; icon: React.ElementType; color: string }> = {
   resolved: { label: "Resuelto", icon: CheckCircle, color: "text-[#2ecc71]" },
@@ -83,15 +70,109 @@ const tooltipStyle = {
   fontSize: "12px",
 }
 
+function formatChange(current: number, previous: number): { change: string; type: "up" | "down" } {
+  if (previous === 0) return { change: current > 0 ? "+100%" : "0%", type: "up" }
+  const diff = ((current - previous) / previous) * 100
+  return {
+    change: `${diff >= 0 ? "+" : ""}${diff.toFixed(1)}%`,
+    type: diff >= 0 ? "up" : "down",
+  }
+}
+
 export default function DashboardPage() {
-  const [userName, setUserName] = useState("Café Avellaneda")
+  const router = useRouter()
+  const [businessName, setBusinessName] = useState("")
+  const [overview, setOverview] = useState<{
+    messages_today: number; messages_yesterday: number
+    resolution_rate: number; resolution_rate_prev_week: number
+    new_contacts_week: number; new_contacts_prev_week: number
+    avg_response_seconds: number
+  } | null>(null)
+  const [weeklyData, setWeeklyData] = useState<{ name: string; mensajes: number; resueltos: number }[]>([])
+  const [hourlyData, setHourlyData] = useState<{ hour: string; msgs: number }[]>([])
+  const [conversations, setConversations] = useState<{
+    client_phone: string; client_name: string; last_message: string
+    time_ago: string; channel: string; status: string
+  }[]>([])
+  const [channels, setChannels] = useState<{ name: string; value: number; color: string }[]>([])
 
   useEffect(() => {
     const session = localStorage.getItem("frely_session")
-    if (session) {
-      try { setUserName(JSON.parse(session).name) } catch {}
+    if (!session) {
+      router.push("/login")
+      return
     }
-  }, [])
+
+    let parsed
+    try {
+      parsed = JSON.parse(session)
+    } catch {
+      router.push("/login")
+      return
+    }
+
+    const token = parsed.token
+    if (!token) {
+      router.push("/login")
+      return
+    }
+
+    setBusinessName(parsed.current_business?.name || parsed.name || "")
+
+    getDashboardOverview(token)
+      .then(setOverview)
+      .catch(() => {})
+
+    getMessagesWeekly(token)
+      .then((data) => {
+        setWeeklyData(data.map((d: { day: string; received: number; resolved_by_ai: number }) => ({
+          name: d.day,
+          mensajes: d.received,
+          resueltos: d.resolved_by_ai,
+        })))
+      })
+      .catch(() => {})
+
+    getMessagesHourly(token)
+      .then((data) => {
+        // Fill all 24 hours, merge with API data
+        const hourMap = new Map<string, number>()
+        for (let h = 0; h < 24; h++) {
+          hourMap.set(String(h).padStart(2, "0"), 0)
+        }
+        data.forEach((d: { hour: number | string; count: number }) => {
+          hourMap.set(String(d.hour).padStart(2, "0"), d.count)
+        })
+        setHourlyData(Array.from(hourMap.entries()).map(([hour, msgs]) => ({ hour, msgs })))
+      })
+      .catch(() => {})
+
+    getRecentConversations(token, 5)
+      .then(setConversations)
+      .catch(() => {})
+
+    getChannels(token)
+      .then((data) => {
+        setChannels(data.map((d: { name: string; percentage: number }) => ({
+          name: d.name,
+          value: d.percentage,
+          color: channelColors[d.name] || "#666",
+        })))
+      })
+      .catch(() => {})
+  }, [router])
+
+  const msgChange = overview
+    ? formatChange(overview.messages_today, overview.messages_yesterday)
+    : { change: "-", type: "up" as const }
+  const resChange = overview
+    ? formatChange(overview.resolution_rate, overview.resolution_rate_prev_week)
+    : { change: "-", type: "up" as const }
+  const contactChange = overview
+    ? formatChange(overview.new_contacts_week, overview.new_contacts_prev_week)
+    : { change: "-", type: "up" as const }
+
+  const totalToday = overview?.messages_today ?? 0
 
   return (
     <div className="space-y-6">
@@ -99,9 +180,9 @@ export default function DashboardPage() {
       <div className="rounded-xl bg-gradient-to-r from-foreground to-foreground/80 text-background p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold">¡Hola, {userName}!</h2>
+            <h2 className="text-xl font-bold">¡Hola, {businessName}!</h2>
             <p className="text-background/60 text-sm mt-1">
-              Tu asistente atendió <span className="text-[#2ecc71] font-semibold">47 conversaciones</span> mientras no estabas.
+              Tu asistente atendió <span className="text-[#2ecc71] font-semibold">{totalToday} conversaciones</span> hoy.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -116,10 +197,38 @@ export default function DashboardPage() {
 
       {/* Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard title="Mensajes hoy" value="1,247" change="+12.5%" changeType="up" icon={MessageSquare} desc="vs ayer" />
-        <MetricCard title="Tasa de resolución" value="92.3%" change="+3.1%" changeType="up" icon={CheckCircle2} desc="vs semana pasada" />
-        <MetricCard title="Contactos nuevos" value="84" change="+8.7%" changeType="up" icon={Users} desc="esta semana" />
-        <MetricCard title="Tiempo de respuesta" value="< 3 seg" change="-18%" changeType="up" icon={Clock} desc="más rápido" />
+        <MetricCard
+          title="Mensajes hoy"
+          value={overview ? overview.messages_today.toLocaleString() : "—"}
+          change={msgChange.change}
+          changeType={msgChange.type}
+          icon={MessageSquare}
+          desc="vs ayer"
+        />
+        <MetricCard
+          title="Tasa de resolución"
+          value={overview ? `${overview.resolution_rate}%` : "—"}
+          change={resChange.change}
+          changeType={resChange.type}
+          icon={CheckCircle2}
+          desc="vs semana pasada"
+        />
+        <MetricCard
+          title="Contactos nuevos"
+          value={overview ? overview.new_contacts_week.toLocaleString() : "—"}
+          change={contactChange.change}
+          changeType={contactChange.type}
+          icon={Users}
+          desc="esta semana"
+        />
+        <MetricCard
+          title="Tiempo de respuesta"
+          value={overview ? `< ${Math.ceil(overview.avg_response_seconds)} seg` : "—"}
+          change="-"
+          changeType="up"
+          icon={Clock}
+          desc=""
+        />
       </div>
 
       {/* Charts */}
@@ -140,7 +249,7 @@ export default function DashboardPage() {
           <CardContent>
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={messagesData}>
+                <AreaChart data={weeklyData}>
                   <defs>
                     <linearGradient id="gMsgs" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="hsl(var(--foreground))" stopOpacity={0.1} />
@@ -172,15 +281,15 @@ export default function DashboardPage() {
             <div className="h-[180px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={channelData} cx="50%" cy="50%" innerRadius={50} outerRadius={75} paddingAngle={4} dataKey="value">
-                    {channelData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                  <Pie data={channels} cx="50%" cy="50%" innerRadius={50} outerRadius={75} paddingAngle={4} dataKey="value">
+                    {channels.map((entry, i) => <Cell key={i} fill={entry.color} />)}
                   </Pie>
                   <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`, ""]} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
             <div className="space-y-2.5 mt-2">
-              {channelData.map((ch) => (
+              {channels.map((ch) => (
                 <div key={ch.name} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: ch.color }} />
@@ -210,23 +319,32 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-1">
-              {recentConversations.map((conv, i) => {
-                const st = statusConfig[conv.status]
+              {conversations.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-8">No hay conversaciones recientes</p>
+              )}
+              {conversations.map((conv, i) => {
+                const st = statusConfig[conv.status] || statusConfig.pending
                 const StIcon = st.icon
+                const color = channelColors[conv.channel] || "#666"
+                const lastTwo = conv.client_phone.slice(-2)
+                const testerName = testerNames[lastTwo]
+                const displayName = conv.client_name || testerName || conv.client_phone
+                const initials = (conv.client_name || testerName || "??")
+                  .split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
                 return (
                   <Link key={i} href="/dashboard/conversaciones" className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
                     <Avatar className="h-9 w-9 shrink-0">
-                      <AvatarFallback className="text-xs bg-muted">{conv.name.split(" ").map((n) => n[0]).join("")}</AvatarFallback>
+                      <AvatarFallback className="text-xs bg-muted">{initials}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">{conv.name}</span>
-                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 font-normal" style={{ borderColor: conv.channelColor + "40", color: conv.channelColor }}>{conv.channel}</Badge>
+                        <span className="text-sm font-medium">{displayName}</span>
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 font-normal" style={{ borderColor: color + "40", color }}>{conv.channel}</Badge>
                       </div>
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">{conv.message}</p>
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">{conv.last_message}</p>
                     </div>
                     <div className="flex flex-col items-end gap-1 shrink-0">
-                      <span className="text-[10px] text-muted-foreground">{conv.time}</span>
+                      <span className="text-[10px] text-muted-foreground">{conv.time_ago}</span>
                       <StIcon className={`h-3.5 w-3.5 ${st.color}`} />
                     </div>
                   </Link>

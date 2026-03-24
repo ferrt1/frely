@@ -31,7 +31,11 @@ import {
   BookOpen,
   CreditCard,
   HelpCircle,
+  ChevronsUpDown,
+  Check,
+  Store,
 } from "lucide-react"
+import { switchBusiness } from "@/lib/api"
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -67,14 +71,55 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
-  const [user, setUser] = useState({ name: "Café Avellaneda", email: "demo@frely.com.ar", plan: "Pro", initials: "CA" })
+  const [user, setUser] = useState({ name: "", email: "", plan: "Pro", initials: "" })
+  const [businesses, setBusinesses] = useState<{ id: number; name: string; slug: string }[]>([])
+  const [currentBusinessId, setCurrentBusinessId] = useState<number | null>(null)
+  const [switching, setSwitching] = useState(false)
 
   useEffect(() => {
     const session = localStorage.getItem("frely_session")
-    if (session) {
-      try { setUser(JSON.parse(session)) } catch {}
+    if (!session) {
+      router.push("/login")
+      return
     }
-  }, [])
+    try {
+      const parsed = JSON.parse(session)
+      const name = parsed.current_business?.name || parsed.name || ""
+      setUser({
+        name,
+        email: parsed.email || "",
+        plan: parsed.plan || "Pro",
+        initials: name.split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase(),
+      })
+      setBusinesses(parsed.businesses || [])
+      setCurrentBusinessId(parsed.current_business?.id || null)
+    } catch {
+      router.push("/login")
+    }
+  }, [router])
+
+  const handleSwitchBusiness = async (businessId: number) => {
+    const session = localStorage.getItem("frely_session")
+    if (!session) return
+    const parsed = JSON.parse(session)
+    setSwitching(true)
+    try {
+      const data = await switchBusiness(parsed.token, businessId)
+      const updated = {
+        ...parsed,
+        token: data.token,
+        current_business: data.current_business,
+        name: data.current_business.name,
+        initials: data.current_business.name.split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase(),
+      }
+      localStorage.setItem("frely_session", JSON.stringify(updated))
+      window.location.reload()
+    } catch {
+      // silently fail
+    } finally {
+      setSwitching(false)
+    }
+  }
 
   const toggleDark = () => {
     setDarkMode(!darkMode)
@@ -103,6 +148,33 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className={cn("h-16 flex items-center border-b border-border px-4", collapsed && "justify-center")}>
           <FrelyLogoSmall collapsed={collapsed} />
         </div>
+
+        {/* Business Switcher */}
+        {businesses.length > 1 && !collapsed && (
+          <div className="px-3 pt-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 w-full rounded-lg border border-border px-3 py-2 hover:bg-muted transition-colors text-left" disabled={switching}>
+                  <Store className="h-4 w-4 text-muted-foreground shrink-0" />
+                  <span className="text-sm font-medium truncate flex-1">{user.name}</span>
+                  <ChevronsUpDown className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                {businesses.map((biz) => (
+                  <DropdownMenuItem
+                    key={biz.id}
+                    onClick={() => handleSwitchBusiness(biz.id)}
+                    className="flex items-center justify-between"
+                  >
+                    <span>{biz.name}</span>
+                    {biz.id === currentBusinessId && <Check className="h-4 w-4 text-[#2ecc71]" />}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
 
         <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
@@ -199,7 +271,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div>
               <h1 className="text-sm font-semibold">{currentPage?.label || "Dashboard"}</h1>
               <p className="text-xs text-muted-foreground hidden sm:block">
-                {new Date().toLocaleDateString("es-AR", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+                {typeof window !== "undefined" ? new Date().toLocaleDateString("es-AR", { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : ""}
               </p>
             </div>
           </div>

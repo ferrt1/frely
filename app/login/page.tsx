@@ -7,26 +7,39 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowRight, Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
+import { login } from "@/lib/api"
 
 export default function LoginPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [email, setEmail] = useState("demo@frely.com.ar")
-  const [password, setPassword] = useState("demo1234")
+  const [phone, setPhone] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    setTimeout(() => {
+    setError("")
+
+    try {
+      const data = await login(phone, password)
+
       localStorage.setItem("frely_session", JSON.stringify({
-        name: "Café Avellaneda",
-        email: email,
+        token: data.token,
+        businesses: data.businesses,
+        current_business: data.current_business,
+        name: data.current_business.name,
+        initials: data.current_business.name.split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase(),
         plan: "Pro",
-        initials: "CA",
       }))
+
       router.push("/dashboard")
-    }, 800)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al iniciar sesión")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -93,21 +106,23 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Demo banner */}
-          <div className="rounded-lg bg-[#2ecc71]/10 border border-[#2ecc71]/20 p-3">
-            <p className="text-xs text-[#2ecc71] font-medium">Modo demo — Hacé clic en "Acceder" directamente</p>
-            <p className="text-xs text-muted-foreground mt-0.5">Las credenciales ya están precargadas</p>
-          </div>
+          {error && (
+            <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-3">
+              <p className="text-xs text-destructive font-medium">{error}</p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="phone">Usuario</Label>
               <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="phone"
+                type="text"
+                placeholder="Tu usuario"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="h-11"
+                required
               />
             </div>
 
@@ -122,9 +137,11 @@ export default function LoginPage() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
+                  placeholder="Tu contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="h-11 pr-10"
+                  required
                 />
                 <button
                   type="button"

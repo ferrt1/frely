@@ -3,9 +3,9 @@
 import { useRef, useEffect, useState } from "react"
 import { motion, useInView } from "motion/react"
 
-const stats = [
-  { value: 200, suffix: "+", label: "negocios ya atienden solos" },
-  { value: 50000, suffix: "+", label: "mensajes respondidos" },
+const fallbackStats = [
+  { value: 3, suffix: "+", label: "negocios ya atienden solos" },
+  { value: 28, suffix: "+", label: "mensajes respondidos" },
   { value: 24, suffix: "/7", label: "sin parar" },
 ]
 
@@ -50,6 +50,22 @@ function AnimatedCounter({ value, suffix, inView }: { value: number; suffix: str
 export function Metrics() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [stats, setStats] = useState(fallbackStats)
+
+  useEffect(() => {
+    fetch("https://51.210.10.187:8000/api/stats")
+      .then((res) => res.json())
+      .then((data) => {
+        setStats([
+          { value: data.businesses_count, suffix: "+", label: "negocios ya atienden solos" },
+          { value: data.messages_count, suffix: "+", label: "mensajes respondidos" },
+          { value: 24, suffix: "/7", label: "sin parar" },
+        ])
+      })
+      .catch(() => {
+        // Keep fallback stats
+      })
+  }, [])
 
   return (
     <section ref={ref} className="bg-neutral-900 py-14 sm:py-16">

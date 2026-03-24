@@ -6,7 +6,11 @@
       "Bash(pnpm install:*)",
       "Bash(cp c:/frely-web/logo/headericon.png c:/frely-web/public/favicon.png)",
       "Bash(cp c:/frely-web/logo/frely.png c:/frely-web/public/og-image.png)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Read(//c/ai/whatsapp-automation/**)",
+      "Bash(grep -n \"def \\\\|@router\\\\|@app\\\\.\" /c/ai/whatsapp-automation/app/main.py /c/ai/whatsapp-automation/app/api/*.py)",
+      "Bash(curl -s http://51.210.10.187:8000/api/dashboard/overview -H \"x-admin-secret: zL1NznAnUeFWPgG-wa44h3aP_7DtvKRC8gCnyme-fag\")",
+      "Bash(curl -s http://51.210.10.187:8000/api/stats)"
     ]
   }
 }
