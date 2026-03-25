@@ -116,10 +116,11 @@ export function AnimatedNumber({ value, className }: { value: number; className?
 }
 
 // Skeleton loader with shimmer
-export function Skeleton({ className }: { className?: string }) {
+export function Skeleton({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
     <motion.div
       className={`bg-muted rounded-md ${className}`}
+      style={style}
       initial={{ opacity: 0.5 }}
       animate={{ opacity: [0.5, 0.8, 0.5] }}
       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
