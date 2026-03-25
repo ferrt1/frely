@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowRight, Eye, EyeOff } from "lucide-react"
+import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 import { login } from "@/lib/api"
+import { motion } from "framer-motion"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -46,19 +47,42 @@ export default function LoginPage() {
     <div className="min-h-screen flex">
       {/* Left - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-foreground text-background relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-72 h-72 rounded-full bg-[#2ecc71]/5 blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-[#25D366]/5 blur-3xl" />
-        </div>
+        <motion.div
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+        >
+          <motion.div
+            className="absolute top-20 left-20 w-72 h-72 rounded-full bg-[#2ecc71]/5 blur-3xl"
+            animate={{ scale: [1, 1.2, 1], x: [0, 20, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-[#25D366]/5 blur-3xl"
+            animate={{ scale: [1, 1.15, 1], y: [0, -15, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
-          <div className="flex items-center gap-0.5">
+          <motion.div
+            className="flex items-center gap-0.5"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <span className="text-2xl font-semibold tracking-tight">frely</span>
             <svg width="16" height="14" viewBox="0 0 16 14" fill="none" className="-mt-3" aria-hidden="true">
               <rect x="0" y="0" width="13" height="9" rx="2" fill="#2ecc71" />
               <polygon points="2.5,9 5.5,9 2.5,12.5" fill="#2ecc71" />
             </svg>
-          </div>
-          <div className="space-y-6">
+          </motion.div>
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
             <h1 className="text-4xl font-bold leading-tight">
               Controlá tu negocio<br />
               <span className="text-[#2ecc71]">desde un solo lugar.</span>
@@ -66,8 +90,13 @@ export default function LoginPage() {
             <p className="text-lg text-background/60 max-w-md">
               Métricas en tiempo real de tu asistente de IA. Conversaciones, ventas, contactos y más.
             </p>
-          </div>
-          <div className="flex items-center gap-8 text-sm text-background/40">
+          </motion.div>
+          <motion.div
+            className="flex items-center gap-8 text-sm text-background/40"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
             <div className="flex flex-col">
               <span className="text-2xl font-bold text-background">200+</span>
               <span>Negocios activos</span>
@@ -82,14 +111,35 @@ export default function LoginPage() {
               <span className="text-2xl font-bold text-background">24/7</span>
               <span>Disponibilidad</span>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Right - Form */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-background">
+      <div className="flex-1 flex items-center justify-center p-6 bg-background relative">
+        {/* Back button */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="absolute top-6 left-6"
+        >
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors group"
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+            <span>Volver</span>
+          </Link>
+        </motion.div>
+
         <div className="w-full max-w-sm space-y-8">
-          <div className="lg:hidden flex justify-center">
+          <motion.div
+            className="lg:hidden flex justify-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <Link href="/" className="flex items-center gap-0.5">
               <span className="text-2xl font-semibold text-foreground tracking-tight">frely</span>
               <svg width="16" height="14" viewBox="0 0 16 14" fill="none" className="-mt-3">
@@ -97,22 +147,38 @@ export default function LoginPage() {
                 <polygon points="2.5,9 5.5,9 2.5,12.5" fill="#2ecc71" />
               </svg>
             </Link>
-          </div>
+          </motion.div>
 
-          <div className="space-y-2 text-center lg:text-left">
+          <motion.div
+            className="space-y-2 text-center lg:text-left"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             <h2 className="text-2xl font-bold tracking-tight">Iniciá sesión</h2>
             <p className="text-sm text-muted-foreground">
               Ingresá tus credenciales para acceder al panel
             </p>
-          </div>
+          </motion.div>
 
           {error && (
-            <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-3">
+            <motion.div
+              className="rounded-lg bg-destructive/10 border border-destructive/20 p-3"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
               <p className="text-xs text-destructive font-medium">{error}</p>
-            </div>
+            </motion.div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <motion.form
+            onSubmit={handleSubmit}
+            className="space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <div className="space-y-2">
               <Label htmlFor="phone">Usuario</Label>
               <Input
@@ -167,14 +233,19 @@ export default function LoginPage() {
                 </>
               )}
             </Button>
-          </form>
+          </motion.form>
 
-          <p className="text-center text-sm text-muted-foreground">
+          <motion.p
+            className="text-center text-sm text-muted-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             ¿No tenés cuenta?{" "}
             <Link href="/#precios" className="text-foreground font-medium hover:underline">
               Empezar gratis
             </Link>
-          </p>
+          </motion.p>
         </div>
       </div>
     </div>

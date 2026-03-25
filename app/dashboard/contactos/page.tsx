@@ -12,7 +12,7 @@ import {
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select"
-import { Search, Download, Filter, MessageSquare, Phone, Mail, MoreHorizontal, UserPlus, ArrowUpDown } from "lucide-react"
+import { Search, Download, Filter, MessageSquare, Phone, Mail, MoreHorizontal, UserPlus, ArrowUpDown, Users } from "lucide-react"
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -88,6 +88,17 @@ export default function ContactosPage() {
           </div>
         </CardHeader>
         <CardContent>
+          {filtered.length === 0 && (
+            <div className="text-center py-12 space-y-3">
+              <div className="h-14 w-14 rounded-2xl bg-muted flex items-center justify-center mx-auto">
+                <Users className="h-6 w-6 text-muted-foreground" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Sin contactos</p>
+                <p className="text-xs text-muted-foreground mt-1">{search || channelFilter !== "all" ? "Probá con otro filtro o búsqueda" : "Los contactos de tu bot aparecerán acá"}</p>
+              </div>
+            </div>
+          )}
           {/* Mobile: Card list */}
           <div className="sm:hidden space-y-2">
             {filtered.map((contact) => (

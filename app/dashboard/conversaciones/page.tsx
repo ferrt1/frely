@@ -204,7 +204,15 @@ export default function ConversacionesPage() {
           <OverlayScrollbarsComponent className="flex-1 min-h-0" options={scrollbarOptions} defer>
             <div className="space-y-1 pr-1">
               {filtered.length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-8">No hay conversaciones</p>
+                <div className="text-center py-12 space-y-3">
+                  <div className="h-14 w-14 rounded-2xl bg-muted flex items-center justify-center mx-auto">
+                    <MessageSquare className="h-6 w-6 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Sin conversaciones</p>
+                    <p className="text-xs text-muted-foreground mt-1">{search || statusFilter !== "all" ? "Probá con otro filtro o búsqueda" : "Cuando tu bot reciba mensajes, aparecerán acá"}</p>
+                  </div>
+                </div>
               )}
               {filtered.map((conv) => {
                 const st = statusConfig[conv.status] || statusConfig.pending

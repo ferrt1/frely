@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -335,7 +336,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuItem><User className="h-4 w-4 mr-2" />{t.profile}</DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href="/dashboard/perfil"><User className="h-4 w-4 mr-2" />{t.profile}</Link></DropdownMenuItem>
               <DropdownMenuItem asChild><Link href="/dashboard/configuracion"><Settings className="h-4 w-4 mr-2" />{t.config}</Link></DropdownMenuItem>
               <DropdownMenuItem asChild><Link href="/dashboard/facturacion"><CreditCard className="h-4 w-4 mr-2" />{t.billing}</Link></DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -442,7 +443,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </Avatar>
           </div>
         </header>
-        <div className="p-3 sm:p-4 lg:p-6 w-full max-w-full overflow-x-hidden">{children}</div>
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="p-3 sm:p-4 lg:p-6 w-full max-w-full overflow-x-hidden"
+        >
+          {children}
+        </motion.div>
       </main>
     </div>
   )

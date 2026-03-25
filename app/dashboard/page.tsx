@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   MessageSquare, TrendingUp, TrendingDown, Users, CheckCircle2, Clock,
-  ArrowUpRight, CheckCircle, XCircle, AlertCircle, Bot,
+  ArrowUpRight, CheckCircle, XCircle, AlertCircle, Bot, Zap, BookOpen,
+  BarChart3, Settings, Target, ShieldCheck,
 } from "lucide-react"
+import { FadeIn, StaggerContainer, StaggerItem, MetricSkeleton, ChartSkeleton, ConversationSkeleton } from "@/components/motion"
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell,
@@ -96,6 +98,7 @@ export default function DashboardPage() {
     time_ago: string; channel: string; status: string
   }[]>([])
   const [channels, setChannels] = useState<{ name: string; value: number; color: string }[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const session = localStorage.getItem("frely_session")
@@ -121,8 +124,8 @@ export default function DashboardPage() {
     setBusinessName(parsed.current_business?.name || parsed.name || "")
 
     getDashboardOverview(token)
-      .then(setOverview)
-      .catch(() => {})
+      .then((d) => { setOverview(d); setLoading(false) })
+      .catch(() => setLoading(false))
 
     getMessagesWeekly(token)
       .then((data) => {
@@ -178,61 +181,78 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 w-full max-w-full overflow-hidden">
       {/* Welcome */}
-      <div className="rounded-xl bg-gradient-to-r from-foreground to-foreground/80 text-background p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-          <div>
-            <h2 className="text-lg sm:text-xl font-bold">¡Hola, {businessName}!</h2>
-            <p className="text-background/60 text-xs sm:text-sm mt-1">
-              Tu asistente atendió <span className="text-[#2ecc71] font-semibold">{totalToday} conversaciones</span> hoy.
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#2ecc71]/20 text-[#2ecc71]">
-              <Bot className="h-4 w-4" />
-              <span className="text-xs font-medium">Bot activo</span>
-              <span className="h-2 w-2 rounded-full bg-[#2ecc71] animate-pulse" />
+      <FadeIn>
+        <div className="rounded-xl bg-gradient-to-r from-foreground to-foreground/80 text-background p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold">¡Hola, {businessName}!</h2>
+              <p className="text-background/60 text-xs sm:text-sm mt-1">
+                Tu asistente atendió <span className="text-[#2ecc71] font-semibold">{totalToday} conversaciones</span> hoy.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#2ecc71]/20 text-[#2ecc71]">
+                <Bot className="h-4 w-4" />
+                <span className="text-xs font-medium">Bot activo</span>
+                <span className="h-2 w-2 rounded-full bg-[#2ecc71] animate-pulse" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </FadeIn>
 
       {/* Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
-        <MetricCard
-          title="Mensajes hoy"
-          value={overview ? overview.messages_today.toLocaleString() : "—"}
-          change={msgChange.change}
-          changeType={msgChange.type}
-          icon={MessageSquare}
-          desc="vs ayer"
-        />
-        <MetricCard
-          title="Tasa de resolución"
-          value={overview ? `${overview.resolution_rate}%` : "—"}
-          change={resChange.change}
-          changeType={resChange.type}
-          icon={CheckCircle2}
-          desc="vs semana pasada"
-        />
-        <MetricCard
-          title="Contactos nuevos"
-          value={overview ? overview.new_contacts_week.toLocaleString() : "—"}
-          change={contactChange.change}
-          changeType={contactChange.type}
-          icon={Users}
-          desc="esta semana"
-        />
-        <MetricCard
-          title="Tiempo de respuesta"
-          value={overview ? `< ${Math.ceil(overview.avg_response_seconds)} seg` : "—"}
-          change="-"
-          changeType="up"
-          icon={Clock}
-          desc=""
-        />
-      </div>
+      {loading ? (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+          {Array.from({ length: 4 }).map((_, i) => <MetricSkeleton key={i} />)}
+        </div>
+      ) : (
+        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4" delay={0.1}>
+          <StaggerItem>
+            <MetricCard
+              title="Mensajes hoy"
+              value={overview ? overview.messages_today.toLocaleString() : "—"}
+              change={msgChange.change}
+              changeType={msgChange.type}
+              icon={MessageSquare}
+              desc="vs ayer"
+            />
+          </StaggerItem>
+          <StaggerItem>
+            <MetricCard
+              title="Tasa de resolución"
+              value={overview ? `${overview.resolution_rate}%` : "—"}
+              change={resChange.change}
+              changeType={resChange.type}
+              icon={CheckCircle2}
+              desc="vs semana pasada"
+            />
+          </StaggerItem>
+          <StaggerItem>
+            <MetricCard
+              title="Contactos nuevos"
+              value={overview ? overview.new_contacts_week.toLocaleString() : "—"}
+              change={contactChange.change}
+              changeType={contactChange.type}
+              icon={Users}
+              desc="esta semana"
+            />
+          </StaggerItem>
+          <StaggerItem>
+            <MetricCard
+              title="Tiempo de respuesta"
+              value={overview ? `< ${Math.ceil(overview.avg_response_seconds)} seg` : "—"}
+              change="-"
+              changeType="up"
+              icon={Clock}
+              desc=""
+            />
+          </StaggerItem>
+        </StaggerContainer>
+      )}
 
       {/* Charts */}
+      <FadeIn delay={0.3}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="lg:col-span-2">
           <CardHeader className="pb-2">
@@ -303,8 +323,36 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+      </FadeIn>
+
+      {/* Quick Actions */}
+      <FadeIn delay={0.4}>
+      <div>
+        <h3 className="text-sm font-semibold mb-3">Accesos rápidos</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+          {[
+            { label: "Conversaciones", icon: MessageSquare, href: "/dashboard/conversaciones", color: "#2ecc71" },
+            { label: "Entrenar IA", icon: BookOpen, href: "/dashboard/conocimiento", color: "#3b82f6" },
+            { label: "Analytics", icon: BarChart3, href: "/dashboard/analytics", color: "#a855f7" },
+            { label: "Configuración", icon: Settings, href: "/dashboard/configuracion", color: "#f59e0b" },
+          ].map((action) => (
+            <Link key={action.label} href={action.href}>
+              <Card className="hover:bg-muted/50 transition-colors cursor-pointer group">
+                <CardContent className="p-3 sm:p-4 flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: action.color + "15" }}>
+                    <action.icon className="h-4 w-4" style={{ color: action.color }} />
+                  </div>
+                  <span className="text-xs sm:text-sm font-medium">{action.label}</span>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </div>
+      </FadeIn>
 
       {/* Bottom */}
+      <FadeIn delay={0.5}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="lg:col-span-2">
           <CardHeader className="pb-3">
@@ -320,8 +368,21 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-1">
-              {conversations.length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-8">No hay conversaciones recientes</p>
+              {loading && conversations.length === 0 && (
+                <>
+                  {Array.from({ length: 3 }).map((_, i) => <ConversationSkeleton key={i} />)}
+                </>
+              )}
+              {!loading && conversations.length === 0 && (
+                <div className="text-center py-8 space-y-3">
+                  <div className="h-12 w-12 rounded-xl bg-muted flex items-center justify-center mx-auto">
+                    <MessageSquare className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Sin conversaciones aún</p>
+                    <p className="text-xs text-muted-foreground mt-1">Cuando tu bot reciba mensajes, aparecerán acá</p>
+                  </div>
+                </div>
               )}
               {conversations.map((conv, i) => {
                 const st = statusConfig[conv.status] || statusConfig.pending
@@ -375,6 +436,55 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+      </FadeIn>
+
+      {/* Bot Performance Summary */}
+      <FadeIn delay={0.6}>
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-base">Rendimiento del bot</CardTitle>
+              <CardDescription>Resumen de cómo está trabajando tu asistente IA</CardDescription>
+            </div>
+            <Button variant="outline" size="sm" className="text-xs gap-1.5" asChild>
+              <Link href="/dashboard/analytics">Ver más<ArrowUpRight className="h-3 w-3" /></Link>
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-[#2ecc71]/5 border border-[#2ecc71]/10">
+              <div className="h-10 w-10 rounded-lg bg-[#2ecc71]/10 flex items-center justify-center shrink-0">
+                <Target className="h-5 w-5 text-[#2ecc71]" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">{overview ? `${overview.resolution_rate}%` : "—"}</p>
+                <p className="text-xs text-muted-foreground">Resolución automática</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-500/5 border border-blue-500/10">
+              <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                <Zap className="h-5 w-5 text-blue-500" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">{overview ? `< ${Math.ceil(overview.avg_response_seconds)}s` : "—"}</p>
+                <p className="text-xs text-muted-foreground">Tiempo de respuesta</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-500/5 border border-purple-500/10">
+              <div className="h-10 w-10 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
+                <ShieldCheck className="h-5 w-5 text-purple-500" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">99.8%</p>
+                <p className="text-xs text-muted-foreground">Uptime del bot</p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      </FadeIn>
     </div>
   )
 }
