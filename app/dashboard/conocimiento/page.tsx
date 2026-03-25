@@ -75,10 +75,10 @@ export default function ConocimientoPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card><CardContent className="p-4"><div className="flex items-center gap-2 mb-1"><HelpCircle className="h-4 w-4 text-muted-foreground" /><p className="text-xs text-muted-foreground">Preguntas FAQ</p></div><p className="text-2xl font-bold">{faqs.length}</p></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="flex items-center gap-2 mb-1"><ShoppingBag className="h-4 w-4 text-muted-foreground" /><p className="text-xs text-muted-foreground">Productos cargados</p></div><p className="text-2xl font-bold">{products.length}</p></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="flex items-center gap-2 mb-1"><CheckCircle className="h-4 w-4 text-[#2ecc71]" /><p className="text-xs text-muted-foreground">Precisión de respuestas</p></div><p className="text-2xl font-bold text-[#2ecc71]">94.2%</p></CardContent></Card>
-        <Card><CardContent className="p-4"><div className="flex items-center gap-2 mb-1"><MessageSquare className="h-4 w-4 text-muted-foreground" /><p className="text-xs text-muted-foreground">Consultas resueltas</p></div><p className="text-2xl font-bold">1,847</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><div className="flex items-center gap-2 mb-1"><HelpCircle className="h-4 w-4 text-muted-foreground" /><p className="text-xs text-muted-foreground">Preguntas FAQ</p></div><p className="text-xl sm:text-2xl font-bold">{faqs.length}</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><div className="flex items-center gap-2 mb-1"><ShoppingBag className="h-4 w-4 text-muted-foreground" /><p className="text-xs text-muted-foreground">Productos</p></div><p className="text-xl sm:text-2xl font-bold">{products.length}</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><div className="flex items-center gap-2 mb-1"><CheckCircle className="h-4 w-4 text-[#2ecc71]" /><p className="text-xs text-muted-foreground">Precisión</p></div><p className="text-xl sm:text-2xl font-bold text-[#2ecc71]">94.2%</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><div className="flex items-center gap-2 mb-1"><MessageSquare className="h-4 w-4 text-muted-foreground" /><p className="text-xs text-muted-foreground">Resueltas</p></div><p className="text-xl sm:text-2xl font-bold">1,847</p></CardContent></Card>
       </div>
 
       <div className="relative">

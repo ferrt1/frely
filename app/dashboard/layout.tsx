@@ -364,33 +364,35 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               {dateStr && <p className="text-xs text-muted-foreground hidden sm:block">{dateStr}</p>}
             </div>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             {/* Global Search Trigger */}
-            <GlobalSearch />
+            <div className="hidden sm:block">
+              <GlobalSearch />
+            </div>
 
             {/* Language Toggle */}
-            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={toggleLocale} title={locale === "es" ? "Switch to English" : "Cambiar a Español"}>
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9" onClick={toggleLocale} title={locale === "es" ? "Switch to English" : "Cambiar a Español"}>
               <Globe className="h-4 w-4" />
             </Button>
 
             {/* Dark Mode */}
-            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={toggleDark}>
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9" onClick={toggleDark}>
               {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
 
             {/* Notifications */}
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9 relative">
+                <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 relative">
                   <Bell className="h-4 w-4" />
                   {unreadCount > 0 && (
-                    <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-[#2ecc71] text-[9px] font-bold text-white flex items-center justify-center">
+                    <span className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 h-4 w-4 rounded-full bg-[#2ecc71] text-[9px] font-bold text-white flex items-center justify-center">
                       {unreadCount}
                     </span>
                   )}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent align="end" className="w-80 p-0">
+              <PopoverContent align="end" className="w-[calc(100vw-2rem)] sm:w-80 p-0">
                 <div className="flex items-center justify-between px-4 py-3 border-b border-border">
                   <h3 className="text-sm font-semibold">{t.notifications}</h3>
                   {unreadCount > 0 && (
@@ -440,7 +442,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </Avatar>
           </div>
         </header>
-        <div className="p-4 lg:p-6">{children}</div>
+        <div className="p-3 sm:p-4 lg:p-6">{children}</div>
       </main>
     </div>
   )

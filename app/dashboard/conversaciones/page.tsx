@@ -170,7 +170,7 @@ export default function ConversacionesPage() {
           transition: opacity 0.3s;
         }
       `}</style>
-      <div className="flex h-[calc(100vh-8rem)] gap-4">
+      <div className="flex h-[calc(100vh-7rem)] sm:h-[calc(100vh-8rem)] gap-2 sm:gap-4">
         {/* Conversation List */}
         <div className={`${selected ? "hidden md:flex" : "flex"} flex-col w-full md:w-[340px] shrink-0 min-h-0`}>
           <div className="space-y-3 mb-3 shrink-0">

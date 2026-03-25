@@ -43,19 +43,19 @@ function MetricCard({ title, value, change, changeType, icon: Icon, desc }: {
 }) {
   return (
     <Card>
-      <CardContent className="p-5">
+      <CardContent className="p-3 sm:p-5">
         <div className="flex items-start justify-between">
-          <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">{title}</p>
-            <p className="text-2xl font-bold tracking-tight">{value}</p>
+          <div className="space-y-1 sm:space-y-2">
+            <p className="text-xs sm:text-sm text-muted-foreground">{title}</p>
+            <p className="text-xl sm:text-2xl font-bold tracking-tight">{value}</p>
             <div className="flex items-center gap-1.5">
               {changeType === "up" ? <TrendingUp className="h-3.5 w-3.5 text-[#2ecc71]" /> : <TrendingDown className="h-3.5 w-3.5 text-destructive" />}
               <span className={`text-xs font-medium ${changeType === "up" ? "text-[#2ecc71]" : "text-destructive"}`}>{change}</span>
               <span className="text-xs text-muted-foreground">{desc}</span>
             </div>
           </div>
-          <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center">
-            <Icon className="h-5 w-5 text-muted-foreground" />
+          <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-muted flex items-center justify-center">
+            <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
           </div>
         </div>
       </CardContent>
@@ -178,11 +178,11 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Welcome */}
-      <div className="rounded-xl bg-gradient-to-r from-foreground to-foreground/80 text-background p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="rounded-xl bg-gradient-to-r from-foreground to-foreground/80 text-background p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
           <div>
-            <h2 className="text-xl font-bold">¡Hola, {businessName}!</h2>
-            <p className="text-background/60 text-sm mt-1">
+            <h2 className="text-lg sm:text-xl font-bold">¡Hola, {businessName}!</h2>
+            <p className="text-background/60 text-xs sm:text-sm mt-1">
               Tu asistente atendió <span className="text-[#2ecc71] font-semibold">{totalToday} conversaciones</span> hoy.
             </p>
           </div>
@@ -241,14 +241,14 @@ export default function DashboardPage() {
                 <CardTitle className="text-base">Mensajes esta semana</CardTitle>
                 <CardDescription>Recibidos vs resueltos por IA</CardDescription>
               </div>
-              <div className="flex items-center gap-3 text-xs">
+              <div className="hidden sm:flex items-center gap-3 text-xs">
                 <div className="flex items-center gap-1.5"><div className="h-2.5 w-2.5 rounded-full bg-foreground/60" /><span className="text-muted-foreground">Recibidos</span></div>
                 <div className="flex items-center gap-1.5"><div className="h-2.5 w-2.5 rounded-full bg-[#2ecc71]" /><span className="text-muted-foreground">Resueltos IA</span></div>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="h-[280px]">
+            <div className="h-[200px] sm:h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={weeklyData}>
                   <defs>
@@ -361,7 +361,7 @@ export default function DashboardPage() {
             <CardDescription>Mensajes por hora del día</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[280px]">
+            <div className="h-[200px] sm:h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={hourlyData}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />

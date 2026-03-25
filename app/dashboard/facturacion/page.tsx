@@ -78,9 +78,9 @@ export default function FacturacionPage() {
                 <p className="text-sm text-muted-foreground">$29.990/mes - Próxima facturación: 1 Abr 2026</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs">Cancelar plan</Button>
-              <Button size="sm" className="text-xs gap-1.5 bg-foreground text-background hover:bg-foreground/90">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Button variant="outline" size="sm" className="text-xs flex-1 sm:flex-none">Cancelar plan</Button>
+              <Button size="sm" className="text-xs gap-1.5 bg-foreground text-background hover:bg-foreground/90 flex-1 sm:flex-none">
                 <Zap className="h-3.5 w-3.5" />Upgrade a Business
               </Button>
             </div>
@@ -196,8 +196,8 @@ export default function FacturacionPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-border overflow-hidden">
-            <Table>
+          <div className="rounded-lg border border-border overflow-x-auto -mx-4 sm:mx-0">
+            <Table className="min-w-[500px] sm:min-w-0">
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead className="text-xs">Factura</TableHead>

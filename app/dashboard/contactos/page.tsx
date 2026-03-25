@@ -62,10 +62,10 @@ export default function ContactosPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card><CardContent className="p-4"><p className="text-xs text-muted-foreground">Total contactos</p><p className="text-2xl font-bold mt-1">847</p></CardContent></Card>
-        <Card><CardContent className="p-4"><p className="text-xs text-muted-foreground">Nuevos esta semana</p><p className="text-2xl font-bold mt-1 text-[#2ecc71]">+84</p></CardContent></Card>
-        <Card><CardContent className="p-4"><p className="text-xs text-muted-foreground">Activos (30 días)</p><p className="text-2xl font-bold mt-1">623</p></CardContent></Card>
-        <Card><CardContent className="p-4"><p className="text-xs text-muted-foreground">Tasa de retorno</p><p className="text-2xl font-bold mt-1">68%</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><p className="text-xs text-muted-foreground">Total contactos</p><p className="text-xl sm:text-2xl font-bold mt-1">847</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><p className="text-xs text-muted-foreground">Nuevos esta semana</p><p className="text-xl sm:text-2xl font-bold mt-1 text-[#2ecc71]">+84</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><p className="text-xs text-muted-foreground">Activos (30 días)</p><p className="text-xl sm:text-2xl font-bold mt-1">623</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><p className="text-xs text-muted-foreground">Tasa de retorno</p><p className="text-xl sm:text-2xl font-bold mt-1">68%</p></CardContent></Card>
       </div>
 
       {/* Table */}
@@ -88,8 +88,8 @@ export default function ContactosPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-border overflow-hidden">
-            <Table>
+          <div className="rounded-lg border border-border overflow-x-auto -mx-4 sm:mx-0">
+            <Table className="min-w-[600px] sm:min-w-0">
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead className="text-xs">Contacto</TableHead>
@@ -137,7 +137,7 @@ export default function ContactosPage() {
               </TableBody>
             </Table>
           </div>
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 gap-2">
             <p className="text-xs text-muted-foreground">Mostrando {filtered.length} de {contacts.length} contactos</p>
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm" className="text-xs h-8" disabled>Anterior</Button>

@@ -141,7 +141,7 @@ export default function AnalyticsPage() {
             <CardDescription>Distribución IA vs agente humano</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[280px]">
+            <div className="h-[220px] sm:h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={dailyMessages}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
@@ -166,7 +166,7 @@ export default function AnalyticsPage() {
             <CardDescription>Evolución mensual de mensajes por plataforma</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[280px]">
+            <div className="h-[220px] sm:h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={channelTrend}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
@@ -293,7 +293,7 @@ export default function AnalyticsPage() {
                 <div className="bg-amber-400 h-full" style={{ width: "24%" }} />
                 <div className="bg-destructive h-full" style={{ width: "18%" }} />
               </div>
-              <div className="flex items-center justify-between text-xs">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs gap-1.5 sm:gap-0">
                 <div className="flex items-center gap-1.5">
                   <div className="h-2.5 w-2.5 rounded-sm bg-[#2ecc71]" />
                   <span className="text-muted-foreground">Promotores</span>
