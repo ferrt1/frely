@@ -214,7 +214,7 @@ export default function ConfiguracionPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {/* WhatsApp */}
-              <div className="flex items-center justify-between p-4 rounded-lg border border-border">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-4 rounded-lg border border-border">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#25D366" + "15" }}>
                     <MessageSquare className="h-5 w-5" style={{ color: "#25D366" }} />
@@ -234,7 +234,7 @@ export default function ConfiguracionPage() {
               </div>
 
               {/* Instagram */}
-              <div className="flex items-center justify-between p-4 rounded-lg border border-border">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-4 rounded-lg border border-border">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#E4405F" + "15" }}>
                     <MessageSquare className="h-5 w-5" style={{ color: "#E4405F" }} />
@@ -254,7 +254,7 @@ export default function ConfiguracionPage() {
               </div>
 
               {/* Telegram */}
-              <div className="flex items-center justify-between p-4 rounded-lg border border-border">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-4 rounded-lg border border-border">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#0088cc" + "15" }}>
                     <MessageSquare className="h-5 w-5" style={{ color: "#0088cc" }} />

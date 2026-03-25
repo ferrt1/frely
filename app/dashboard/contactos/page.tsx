@@ -88,14 +88,45 @@ export default function ContactosPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-border overflow-x-auto -mx-4 sm:mx-0">
-            <Table className="min-w-[600px] sm:min-w-0">
+          {/* Mobile: Card list */}
+          <div className="sm:hidden space-y-2">
+            {filtered.map((contact) => (
+              <div key={contact.id} className="flex items-center gap-3 p-3 rounded-lg border border-border">
+                <Avatar className="h-9 w-9 shrink-0">
+                  <AvatarFallback className="text-xs bg-muted">{contact.name.split(" ").map((n) => n[0]).join("")}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium truncate">{contact.name}</p>
+                    <Badge variant="outline" className="text-[10px] font-normal shrink-0" style={{ borderColor: contact.channelColor + "40", color: contact.channelColor }}>{contact.channel}</Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground truncate">{contact.phone}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Badge variant="outline" className={`text-[10px] font-normal ${tagColors[contact.tag]}`}>{contact.tag}</Badge>
+                    <span className="text-[10px] text-muted-foreground">{contact.messages} msgs</span>
+                  </div>
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7 shrink-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem><MessageSquare className="h-3.5 w-3.5 mr-2" />Ver conversación</DropdownMenuItem>
+                    <DropdownMenuItem><Phone className="h-3.5 w-3.5 mr-2" />Llamar</DropdownMenuItem>
+                    <DropdownMenuItem><Mail className="h-3.5 w-3.5 mr-2" />Enviar email</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: Table */}
+          <div className="hidden sm:block rounded-lg border border-border overflow-hidden">
+            <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead className="text-xs">Contacto</TableHead>
                   <TableHead className="text-xs hidden md:table-cell">Canal</TableHead>
                   <TableHead className="text-xs hidden lg:table-cell">Último contacto</TableHead>
-                  <TableHead className="text-xs hidden sm:table-cell">Mensajes</TableHead>
+                  <TableHead className="text-xs">Mensajes</TableHead>
                   <TableHead className="text-xs">Etiqueta</TableHead>
                   <TableHead className="text-xs w-[50px]" />
                 </TableRow>
@@ -118,7 +149,7 @@ export default function ContactosPage() {
                       <Badge variant="outline" className="text-[10px] font-normal" style={{ borderColor: contact.channelColor + "40", color: contact.channelColor }}>{contact.channel}</Badge>
                     </TableCell>
                     <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{contact.lastContact}</TableCell>
-                    <TableCell className="hidden sm:table-cell text-sm">{contact.messages}</TableCell>
+                    <TableCell className="text-sm">{contact.messages}</TableCell>
                     <TableCell>
                       <Badge variant="outline" className={`text-[10px] font-normal ${tagColors[contact.tag]}`}>{contact.tag}</Badge>
                     </TableCell>

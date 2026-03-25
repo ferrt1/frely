@@ -196,13 +196,30 @@ export default function FacturacionPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-border overflow-x-auto -mx-4 sm:mx-0">
-            <Table className="min-w-[500px] sm:min-w-0">
+          {/* Mobile: Card list */}
+          <div className="sm:hidden space-y-2">
+            {invoices.map((inv) => (
+              <div key={inv.id} className="flex items-center justify-between p-3 rounded-lg border border-border">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium">{inv.id}</p>
+                  <p className="text-xs text-muted-foreground">{inv.date} · {inv.plan}</p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-sm font-medium">{inv.amount}</span>
+                  <Button variant="ghost" size="icon" className="h-7 w-7"><Download className="h-3.5 w-3.5" /></Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: Table */}
+          <div className="hidden sm:block rounded-lg border border-border overflow-hidden">
+            <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead className="text-xs">Factura</TableHead>
                   <TableHead className="text-xs">Fecha</TableHead>
-                  <TableHead className="text-xs hidden sm:table-cell">Plan</TableHead>
+                  <TableHead className="text-xs hidden md:table-cell">Plan</TableHead>
                   <TableHead className="text-xs">Monto</TableHead>
                   <TableHead className="text-xs">Estado</TableHead>
                   <TableHead className="text-xs w-[50px]" />
@@ -213,7 +230,7 @@ export default function FacturacionPage() {
                   <TableRow key={inv.id}>
                     <TableCell className="text-sm font-medium">{inv.id}</TableCell>
                     <TableCell className="text-sm text-muted-foreground">{inv.date}</TableCell>
-                    <TableCell className="text-sm hidden sm:table-cell">{inv.plan}</TableCell>
+                    <TableCell className="text-sm hidden md:table-cell">{inv.plan}</TableCell>
                     <TableCell className="text-sm font-medium">{inv.amount}</TableCell>
                     <TableCell>
                       <Badge className="bg-[#2ecc71]/10 text-[#2ecc71] border-0 text-[10px]">Pagado</Badge>

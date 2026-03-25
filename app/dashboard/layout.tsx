@@ -442,7 +442,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </Avatar>
           </div>
         </header>
-        <div className="p-3 sm:p-4 lg:p-6">{children}</div>
+        <div className="p-3 sm:p-4 lg:p-6 overflow-x-hidden">{children}</div>
       </main>
     </div>
   )

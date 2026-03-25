@@ -170,17 +170,17 @@ export default function ConversacionesPage() {
           transition: opacity 0.3s;
         }
       `}</style>
-      <div className="flex h-[calc(100vh-7rem)] sm:h-[calc(100vh-8rem)] gap-2 sm:gap-4">
+      <div className="flex h-[calc(100dvh-6.5rem)] sm:h-[calc(100dvh-8rem)] gap-2 sm:gap-4 overflow-hidden">
         {/* Conversation List */}
-        <div className={`${selected ? "hidden md:flex" : "flex"} flex-col w-full md:w-[340px] shrink-0 min-h-0`}>
+        <div className={`${selected ? "hidden md:flex" : "flex"} flex-col w-full md:w-[340px] shrink-0 min-h-0 overflow-hidden`}>
           <div className="space-y-3 mb-3 shrink-0">
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="relative flex-1 min-w-0">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Buscar conversación..." className="pl-9 h-9 text-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
+                <Input placeholder="Buscar..." className="pl-9 h-9 text-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-[130px] h-9 text-xs"><Filter className="h-3.5 w-3.5 mr-1" /><SelectValue /></SelectTrigger>
+                <SelectTrigger className="w-[100px] sm:w-[130px] h-9 text-xs shrink-0"><Filter className="h-3.5 w-3.5 mr-1" /><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos</SelectItem>
                   <SelectItem value="pending">Pendientes</SelectItem>
@@ -245,24 +245,24 @@ export default function ConversacionesPage() {
         {/* Chat Area */}
         {activeConv ? (
           <Card className="flex-1 flex flex-col min-h-0 overflow-hidden">
-            <div className="flex items-center gap-3 p-4 border-b border-border shrink-0">
-              <button className="md:hidden p-1" onClick={() => setSelected(null)}>
+            <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border-b border-border shrink-0">
+              <button className="md:hidden p-1 shrink-0" onClick={() => setSelected(null)}>
                 <ArrowLeft className="h-5 w-5" />
               </button>
-              <Avatar className="h-9 w-9">
+              <Avatar className="h-8 w-8 sm:h-9 sm:w-9 shrink-0">
                 <AvatarFallback className="text-xs bg-muted">{getInitials(getDisplayName(activeConv))}</AvatarFallback>
               </Avatar>
-              <div>
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-medium">{getDisplayName(activeConv)}</h3>
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 font-normal" style={{ borderColor: (channelColors[activeConv.channel] || "#666") + "40", color: channelColors[activeConv.channel] || "#666" }}>{activeConv.channel}</Badge>
+                  <h3 className="text-sm font-medium truncate">{getDisplayName(activeConv)}</h3>
+                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 font-normal shrink-0" style={{ borderColor: (channelColors[activeConv.channel] || "#666") + "40", color: channelColors[activeConv.channel] || "#666" }}>{activeConv.channel}</Badge>
                 </div>
-                <p className="text-xs text-muted-foreground">{activeConv.client_phone}</p>
+                <p className="text-xs text-muted-foreground truncate">{activeConv.client_phone}</p>
               </div>
             </div>
 
             <OverlayScrollbarsComponent className="flex-1 min-h-0" options={scrollbarOptions} defer>
-              <div className="space-y-3 max-w-3xl mx-auto p-4 pb-6">
+              <div className="space-y-3 max-w-3xl mx-auto p-3 sm:p-4 pb-6">
                 {loadingMessages && (
                   <div className="flex justify-center py-8">
                     <div className="h-5 w-5 border-2 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
@@ -275,7 +275,7 @@ export default function ConversacionesPage() {
                   const time = new Date(msg.created_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })
                   return (
                     <div key={i} className={`flex ${msg.role === "user" ? "justify-start" : "justify-end"}`}>
-                      <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
+                      <div className={`max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 ${
                         msg.role === "user"
                           ? "bg-muted rounded-bl-md"
                           : "bg-foreground text-background rounded-br-md"
@@ -315,7 +315,7 @@ export default function ConversacionesPage() {
                   </div>
                 </div>
               )}
-              <div className="flex items-center gap-2 p-3">
+              <div className="flex items-center gap-1.5 sm:gap-2 p-2 sm:p-3">
                 <button
                   onClick={() => setShowQuickReplies(!showQuickReplies)}
                   className="shrink-0 h-9 w-9 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors"
