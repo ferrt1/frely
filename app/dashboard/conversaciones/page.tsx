@@ -170,9 +170,9 @@ export default function ConversacionesPage() {
           transition: opacity 0.3s;
         }
       `}</style>
-      <div className="flex h-[calc(100dvh-6.5rem)] sm:h-[calc(100dvh-8rem)] gap-2 sm:gap-4 overflow-hidden">
+      <div className="flex h-[calc(100dvh-5.5rem)] sm:h-[calc(100dvh-8rem)] gap-2 sm:gap-4 w-full max-w-full overflow-hidden">
         {/* Conversation List */}
-        <div className={`${selected ? "hidden md:flex" : "flex"} flex-col w-full md:w-[340px] shrink-0 min-h-0 overflow-hidden`}>
+        <div className={`${selected ? "hidden md:flex" : "flex"} flex-col w-full md:w-[340px] md:shrink-0 min-h-0 min-w-0 overflow-hidden`}>
           <div className="space-y-3 mb-3 shrink-0">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <div className="relative flex-1 min-w-0">
@@ -180,7 +180,7 @@ export default function ConversacionesPage() {
                 <Input placeholder="Buscar..." className="pl-9 h-9 text-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-[100px] sm:w-[130px] h-9 text-xs shrink-0"><Filter className="h-3.5 w-3.5 mr-1" /><SelectValue /></SelectTrigger>
+                <SelectTrigger className="w-[90px] sm:w-[130px] h-9 text-xs shrink-0"><Filter className="h-3.5 w-3.5 mr-1" /><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos</SelectItem>
                   <SelectItem value="pending">Pendientes</SelectItem>
@@ -244,7 +244,7 @@ export default function ConversacionesPage() {
 
         {/* Chat Area */}
         {activeConv ? (
-          <Card className="flex-1 flex flex-col min-h-0 overflow-hidden">
+          <Card className="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden">
             <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border-b border-border shrink-0">
               <button className="md:hidden p-1 shrink-0" onClick={() => setSelected(null)}>
                 <ArrowLeft className="h-5 w-5" />

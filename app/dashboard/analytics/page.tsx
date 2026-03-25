@@ -88,11 +88,11 @@ function StatCard({ title, value, change, changeType, icon: Icon, sub }: {
 }) {
   return (
     <Card>
-      <CardContent className="p-5">
+      <CardContent className="p-3 sm:p-5">
         <div className="flex items-start justify-between">
-          <div className="space-y-1.5">
-            <p className="text-xs text-muted-foreground">{title}</p>
-            <p className="text-2xl font-bold">{value}</p>
+          <div className="space-y-1 sm:space-y-1.5">
+            <p className="text-[11px] sm:text-xs text-muted-foreground">{title}</p>
+            <p className="text-lg sm:text-2xl font-bold">{value}</p>
             <div className="flex items-center gap-1">
               {changeType === "up" ? <TrendingUp className="h-3 w-3 text-[#2ecc71]" /> : <TrendingDown className="h-3 w-3 text-destructive" />}
               <span className={`text-[10px] font-medium ${changeType === "up" ? "text-[#2ecc71]" : "text-destructive"}`}>{change}</span>
@@ -108,14 +108,14 @@ function StatCard({ title, value, change, changeType, icon: Icon, sub }: {
 
 export default function AnalyticsPage() {
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
+    <div className="space-y-6 w-full max-w-full overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="min-w-0">
           <h2 className="text-xl font-bold">Analytics</h2>
-          <p className="text-sm text-muted-foreground">Métricas detalladas del rendimiento de tu asistente IA</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">Métricas de tu asistente IA</p>
         </div>
         <Select defaultValue="month">
-          <SelectTrigger className="w-[160px] h-9 text-xs"><Calendar className="h-3.5 w-3.5 mr-2" /><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-full sm:w-[160px] h-9 text-xs"><Calendar className="h-3.5 w-3.5 mr-2" /><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="week">Última semana</SelectItem>
             <SelectItem value="month">Último mes</SelectItem>
@@ -126,7 +126,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         <StatCard title="Total mensajes" value="4,104" change="+18.3%" changeType="up" icon={MessageSquare} sub="vs mes ant." />
         <StatCard title="Resueltos por IA" value="92.3%" change="+3.1%" changeType="up" icon={Bot} sub="vs mes ant." />
         <StatCard title="Satisfacción" value="78%" change="+5.2%" changeType="up" icon={ThumbsUp} sub="positiva" />

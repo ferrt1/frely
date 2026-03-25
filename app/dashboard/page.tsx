@@ -176,7 +176,7 @@ export default function DashboardPage() {
   const totalToday = overview?.messages_today ?? 0
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full max-w-full overflow-hidden">
       {/* Welcome */}
       <div className="rounded-xl bg-gradient-to-r from-foreground to-foreground/80 text-background p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
@@ -197,7 +197,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         <MetricCard
           title="Mensajes hoy"
           value={overview ? overview.messages_today.toLocaleString() : "—"}

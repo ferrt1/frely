@@ -48,7 +48,7 @@ const plans = [
 
 export default function FacturacionPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full max-w-full overflow-hidden">
       <div>
         <h2 className="text-xl font-bold">Facturación</h2>
         <p className="text-sm text-muted-foreground">Gestioná tu plan, pagos y facturas</p>
@@ -69,19 +69,19 @@ export default function FacturacionPage() {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-xl bg-foreground flex items-center justify-center">
-                <Crown className="h-6 w-6 text-background" />
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-foreground flex items-center justify-center shrink-0">
+                <Crown className="h-5 w-5 sm:h-6 sm:w-6 text-background" />
               </div>
-              <div>
-                <h3 className="text-lg font-bold">Plan Pro</h3>
-                <p className="text-sm text-muted-foreground">$29.990/mes - Próxima facturación: 1 Abr 2026</p>
+              <div className="min-w-0">
+                <h3 className="text-base sm:text-lg font-bold">Plan Pro</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground truncate">$29.990/mes · Próx. factura: 1 Abr 2026</p>
               </div>
             </div>
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Button variant="outline" size="sm" className="text-xs flex-1 sm:flex-none">Cancelar plan</Button>
+              <Button variant="outline" size="sm" className="text-xs flex-1 sm:flex-none">Cancelar</Button>
               <Button size="sm" className="text-xs gap-1.5 bg-foreground text-background hover:bg-foreground/90 flex-1 sm:flex-none">
-                <Zap className="h-3.5 w-3.5" />Upgrade a Business
+                <Zap className="h-3.5 w-3.5" />Upgrade
               </Button>
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function FacturacionPage() {
           <Separator />
 
           {/* Usage */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2"><MessageSquare className="h-4 w-4 text-muted-foreground" /><span>Mensajes</span></div>
@@ -171,15 +171,15 @@ export default function FacturacionPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-4 p-4 rounded-lg border border-border">
-            <div className="h-10 w-14 rounded-md bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center">
+          <div className="flex items-center gap-3 p-3 sm:p-4 rounded-lg border border-border">
+            <div className="h-10 w-12 sm:w-14 rounded-md bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center shrink-0">
               <CreditCard className="h-5 w-5 text-white" />
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium">Visa terminada en •••• 4532</p>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate">Visa •••• 4532</p>
               <p className="text-xs text-muted-foreground">Vence 09/2028</p>
             </div>
-            <Badge variant="outline" className="text-[10px]">Predeterminada</Badge>
+            <Badge variant="outline" className="text-[10px] shrink-0">Default</Badge>
           </div>
         </CardContent>
       </Card>

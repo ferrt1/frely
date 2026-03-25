@@ -27,14 +27,14 @@ export default function ConfiguracionPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
+    <div className="space-y-6 w-full max-w-full overflow-hidden">
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
           <h2 className="text-xl font-bold">Configuración</h2>
-          <p className="text-sm text-muted-foreground">Ajustá tu negocio, asistente IA y canales</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">Ajustá tu negocio, asistente IA y canales</p>
         </div>
-        <Button size="sm" className="gap-2 text-xs bg-foreground text-background hover:bg-foreground/90" onClick={handleSave}>
-          {saved ? <><CheckCircle className="h-3.5 w-3.5" />Guardado</> : <><Save className="h-3.5 w-3.5" />Guardar cambios</>}
+        <Button size="sm" className="gap-1.5 text-xs bg-foreground text-background hover:bg-foreground/90 shrink-0" onClick={handleSave}>
+          {saved ? <><CheckCircle className="h-3.5 w-3.5" />Guardado</> : <><Save className="h-3.5 w-3.5" /><span className="hidden sm:inline">Guardar cambios</span><span className="sm:hidden">Guardar</span></>}
         </Button>
       </div>
 

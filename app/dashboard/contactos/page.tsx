@@ -48,36 +48,36 @@ export default function ContactosPage() {
   })
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
+    <div className="space-y-6 w-full max-w-full overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="min-w-0">
           <h2 className="text-xl font-bold">Contactos</h2>
           <p className="text-sm text-muted-foreground">{contacts.length} contactos registrados por el bot</p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="gap-2 text-xs"><Download className="h-3.5 w-3.5" />Exportar CSV</Button>
-          <Button size="sm" className="gap-2 text-xs bg-foreground text-background hover:bg-foreground/90"><UserPlus className="h-3.5 w-3.5" />Agregar contacto</Button>
+        <div className="flex items-center gap-2 shrink-0">
+          <Button variant="outline" size="sm" className="gap-1.5 text-xs"><Download className="h-3.5 w-3.5" /><span className="hidden sm:inline">Exportar</span> CSV</Button>
+          <Button size="sm" className="gap-1.5 text-xs bg-foreground text-background hover:bg-foreground/90"><UserPlus className="h-3.5 w-3.5" /><span className="hidden sm:inline">Agregar</span><span className="sm:hidden">Nuevo</span></Button>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card><CardContent className="p-3 sm:p-4"><p className="text-xs text-muted-foreground">Total contactos</p><p className="text-xl sm:text-2xl font-bold mt-1">847</p></CardContent></Card>
-        <Card><CardContent className="p-3 sm:p-4"><p className="text-xs text-muted-foreground">Nuevos esta semana</p><p className="text-xl sm:text-2xl font-bold mt-1 text-[#2ecc71]">+84</p></CardContent></Card>
-        <Card><CardContent className="p-3 sm:p-4"><p className="text-xs text-muted-foreground">Activos (30 días)</p><p className="text-xl sm:text-2xl font-bold mt-1">623</p></CardContent></Card>
-        <Card><CardContent className="p-3 sm:p-4"><p className="text-xs text-muted-foreground">Tasa de retorno</p><p className="text-xl sm:text-2xl font-bold mt-1">68%</p></CardContent></Card>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+        <Card><CardContent className="p-3 sm:p-4"><p className="text-[11px] sm:text-xs text-muted-foreground">Total contactos</p><p className="text-lg sm:text-2xl font-bold mt-1">847</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><p className="text-[11px] sm:text-xs text-muted-foreground">Nuevos esta semana</p><p className="text-lg sm:text-2xl font-bold mt-1 text-[#2ecc71]">+84</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><p className="text-[11px] sm:text-xs text-muted-foreground">Activos (30d)</p><p className="text-lg sm:text-2xl font-bold mt-1">623</p></CardContent></Card>
+        <Card><CardContent className="p-3 sm:p-4"><p className="text-[11px] sm:text-xs text-muted-foreground">Retorno</p><p className="text-lg sm:text-2xl font-bold mt-1">68%</p></CardContent></Card>
       </div>
 
       {/* Table */}
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <div className="relative flex-1">
+            <div className="relative flex-1 min-w-0">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Buscar por nombre, teléfono o email..." className="pl-9 h-9 text-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
+              <Input placeholder="Buscar..." className="pl-9 h-9 text-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
             <Select value={channelFilter} onValueChange={setChannelFilter}>
-              <SelectTrigger className="w-[150px] h-9 text-sm"><Filter className="h-3.5 w-3.5 mr-2" /><SelectValue /></SelectTrigger>
+              <SelectTrigger className="w-full sm:w-[150px] h-9 text-sm"><Filter className="h-3.5 w-3.5 mr-2" /><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todos</SelectItem>
                 <SelectItem value="WhatsApp">WhatsApp</SelectItem>

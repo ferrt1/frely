@@ -353,18 +353,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main */}
-      <main className={cn("flex-1 transition-all duration-300", collapsed ? "lg:ml-[68px]" : "lg:ml-64")}>
-        <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-4 lg:px-6">
-          <div className="flex items-center gap-3">
-            <button className="lg:hidden p-2 hover:bg-muted rounded-lg transition-colors" onClick={() => setMobileOpen(!mobileOpen)}>
+      <main className={cn("flex-1 min-w-0 w-full transition-all duration-300", collapsed ? "lg:ml-[68px]" : "lg:ml-64")}>
+        <header className="sticky top-0 z-30 h-16 bg-background/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-3 sm:px-4 lg:px-6">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <button className="lg:hidden p-2 hover:bg-muted rounded-lg transition-colors shrink-0" onClick={() => setMobileOpen(!mobileOpen)}>
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <div>
-              <h1 className="text-sm font-semibold">{currentPage?.label || "Dashboard"}</h1>
+            <div className="min-w-0">
+              <h1 className="text-sm font-semibold truncate">{currentPage?.label || "Dashboard"}</h1>
               {dateStr && <p className="text-xs text-muted-foreground hidden sm:block">{dateStr}</p>}
             </div>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             {/* Global Search Trigger */}
             <div className="hidden sm:block">
               <GlobalSearch />
@@ -442,7 +442,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </Avatar>
           </div>
         </header>
-        <div className="p-3 sm:p-4 lg:p-6 overflow-x-hidden">{children}</div>
+        <div className="p-3 sm:p-4 lg:p-6 w-full max-w-full overflow-x-hidden">{children}</div>
       </main>
     </div>
   )

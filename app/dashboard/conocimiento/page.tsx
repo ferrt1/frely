@@ -62,11 +62,11 @@ export default function ConocimientoPage() {
   )
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
+    <div className="space-y-6 w-full max-w-full overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="min-w-0">
           <h2 className="text-xl font-bold">Base de conocimiento</h2>
-          <p className="text-sm text-muted-foreground">Todo lo que tu asistente IA sabe sobre tu negocio</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">Lo que tu asistente IA sabe sobre tu negocio</p>
         </div>
         <Button size="sm" className="gap-2 text-xs bg-foreground text-background hover:bg-foreground/90">
           <Plus className="h-3.5 w-3.5" />Agregar contenido
@@ -74,7 +74,7 @@ export default function ConocimientoPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         <Card><CardContent className="p-3 sm:p-4"><div className="flex items-center gap-2 mb-1"><HelpCircle className="h-4 w-4 text-muted-foreground" /><p className="text-xs text-muted-foreground">Preguntas FAQ</p></div><p className="text-xl sm:text-2xl font-bold">{faqs.length}</p></CardContent></Card>
         <Card><CardContent className="p-3 sm:p-4"><div className="flex items-center gap-2 mb-1"><ShoppingBag className="h-4 w-4 text-muted-foreground" /><p className="text-xs text-muted-foreground">Productos</p></div><p className="text-xl sm:text-2xl font-bold">{products.length}</p></CardContent></Card>
         <Card><CardContent className="p-3 sm:p-4"><div className="flex items-center gap-2 mb-1"><CheckCircle className="h-4 w-4 text-[#2ecc71]" /><p className="text-xs text-muted-foreground">Precisión</p></div><p className="text-xl sm:text-2xl font-bold text-[#2ecc71]">94.2%</p></CardContent></Card>
