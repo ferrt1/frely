@@ -55,9 +55,6 @@ import { GlobalSearch } from "@/components/global-search"
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Conversaciones", href: "/dashboard/conversaciones", icon: MessageSquare },
-  { label: "Contactos", href: "/dashboard/contactos", icon: Users },
-  { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { label: "Base de conocimiento", href: "/dashboard/conocimiento", icon: BookOpen },
   { label: "Facturación", href: "/dashboard/facturacion", icon: CreditCard },
   { label: "Configuración", href: "/dashboard/configuracion", icon: Settings },
 ]
