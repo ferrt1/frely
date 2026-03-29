@@ -5,13 +5,13 @@ import { cn } from "@/lib/utils"
 const plans = [
   {
     name: "Básico",
+    afterPrice: "$100.000/mes",
     price: "$35.000",
     period: "/mes",
-    description: "Hasta 30 clientes/día — peluquerías de barrio, estudios pequeños",
+    description: "0-30 clientes por día",
     features: [
       "Bot con IA + agendamiento automático",
       "Consulta de disponibilidad y cancelaciones",
-      "1 canal (WhatsApp)",
       "Soporte por email",
     ],
     highlighted: false,
@@ -19,14 +19,14 @@ const plans = [
   },
   {
     name: "Pro",
+    afterPrice: "$125.000/mes",
     price: "$60.000",
     period: "/mes",
-    description: "30 a 50 clientes/día — salones de belleza, restaurantes con reservas",
+    description: "30-50 clientes por día",
     features: [
       "Todo lo del plan Básico",
       "Recordatorios de turno opcionales",
       "IA personalizada para tu negocio",
-      "Analytics y reportes",
       "Soporte prioritario",
     ],
     highlighted: true,
@@ -34,12 +34,12 @@ const plans = [
   },
   {
     name: "Premium",
+    afterPrice: "$150.000+/mes",
     price: "$80.000+",
     period: "/mes",
-    description: "+50 clientes/día — negocios grandes, cadenas, alta rotación",
+    description: "50+ clientes por día",
     features: [
       "Todo lo del plan Pro",
-      "Volumen ilimitado",
       "Integraciones a medida",
       "Multi-sucursal",
       "Soporte dedicado 24/7",
@@ -66,16 +66,7 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="mt-10 mx-auto max-w-2xl rounded-2xl border-2 border-accent bg-accent/5 p-5 sm:p-6 text-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent">Oferta de lanzamiento</p>
-          <p className="mt-2 text-2xl sm:text-3xl font-bold text-foreground">$35.000 <span className="text-lg font-normal text-muted-foreground">por 6 meses</span></p>
-          <p className="mt-2 text-sm text-muted-foreground">Comprá ahora y asegurate el servicio completo a un precio especial. Después se aplica el plan que elijas.</p>
-          <Button className="mt-4 gap-2 bg-accent text-accent-foreground hover:bg-accent/90">
-            Quiero la oferta <ArrowRight className="h-4 w-4" />
-          </Button>
-        </div>
-
-        <div className="mt-12 grid gap-6 lg:grid-cols-3 items-start">
+        <div className="mt-16 grid gap-6 lg:grid-cols-3 items-start">
           {plans.map((plan) => (
             <div
               key={plan.name}
@@ -117,6 +108,15 @@ export function Pricing() {
                   )}>
                     {plan.period}
                   </span>
+                  <p className={cn(
+                    "mt-2 text-sm line-through",
+                    plan.highlighted ? "text-background/40" : "text-muted-foreground/50"
+                  )}>
+                    Después: {plan.afterPrice}
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-accent">
+                    Primer mes gratis
+                  </p>
                 </div>
               </div>
 

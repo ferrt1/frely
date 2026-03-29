@@ -44,38 +44,35 @@ const plans = [
   {
     id: "basico",
     name: "Básico",
+    afterPrice: "$100.000/mes",
     price: "$35.000",
     period: "/mes",
-    description: "Hasta 30 clientes/día",
-    features: ["Bot con IA + agendamiento", "1 canal (WhatsApp)", "Consulta disponibilidad", "Cancelaciones automáticas"],
+    description: "0-30 clientes por día",
+    features: ["Bot con IA + agendamiento", "Consulta disponibilidad", "Cancelaciones automáticas"],
     current: false,
   },
   {
     id: "pro",
     name: "Pro",
+    afterPrice: "$125.000/mes",
     price: "$60.000",
     period: "/mes",
-    description: "30 a 50 clientes/día",
-    features: ["Todo lo del Básico", "Recordatorios de turno", "IA personalizada", "Analytics y reportes", "Soporte prioritario"],
+    description: "30-50 clientes por día",
+    features: ["Todo lo del Básico", "Recordatorios de turno", "IA personalizada", "Soporte prioritario"],
     current: true,
     popular: true,
   },
   {
     id: "premium",
     name: "Premium",
+    afterPrice: "$150.000+/mes",
     price: "$80.000+",
     period: "/mes",
-    description: "+50 clientes/día",
-    features: ["Todo lo del Pro", "Volumen ilimitado", "Integraciones a medida", "Multi-sucursal", "Soporte dedicado 24/7"],
+    description: "+50 clientes por día",
+    features: ["Todo lo del Pro", "Integraciones a medida", "Multi-sucursal", "Soporte dedicado 24/7"],
     current: false,
   },
 ]
-
-const promoLaunch = {
-  price: "$35.000",
-  months: 6,
-  label: "Oferta de lanzamiento: $35.000 por 6 meses",
-}
 
 // Simulated MercadoPago payment data
 const mockPaymentData = {
@@ -461,20 +458,6 @@ export default function FacturacionPage() {
         </CardContent>
       </Card>
 
-      {/* Promo Banner */}
-      <Card className="border-2 border-[#2ecc71] bg-[#2ecc71]/5">
-        <CardContent className="p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <Badge className="bg-[#2ecc71] text-white border-0 text-[10px] mb-2">Oferta de lanzamiento</Badge>
-            <h3 className="text-lg font-bold">{promoLaunch.price} <span className="text-sm font-normal text-muted-foreground">por {promoLaunch.months} meses</span></h3>
-            <p className="text-xs text-muted-foreground mt-1">Comprá ahora y asegurate el servicio completo a precio especial. Después se aplica el plan que elijas.</p>
-          </div>
-          <Button className="bg-[#2ecc71] text-white hover:bg-[#2ecc71]/90 gap-1.5 shrink-0" size="sm" onClick={() => handlePayPlan("promo")}>
-            <CreditCard className="h-3.5 w-3.5" />Quiero la oferta
-          </Button>
-        </CardContent>
-      </Card>
-
       {/* Plans Comparison */}
       <div>
         <h3 className="text-base font-semibold mb-4">Comparar planes</h3>
@@ -489,10 +472,13 @@ export default function FacturacionPage() {
               <CardContent className="p-5 space-y-4">
                 <div>
                   <h3 className="font-semibold">{plan.name}</h3>
-                  <div className="flex items-baseline gap-1 mt-1">
+                  <p className="text-xs text-muted-foreground">{plan.description}</p>
+                  <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold">{plan.price}</span>
                     <span className="text-sm text-muted-foreground">{plan.period}</span>
                   </div>
+                  <p className="text-sm line-through text-muted-foreground/50 mt-1">Después: {plan.afterPrice}</p>
+                  <p className="text-xs font-medium text-[#2ecc71] mt-0.5">Primer mes gratis</p>
                 </div>
                 <Separator />
                 <ul className="space-y-2">
