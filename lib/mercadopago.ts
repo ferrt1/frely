@@ -19,27 +19,34 @@ export interface SubscriptionPlan {
 
 // Plans configuration
 export const MP_PLANS: Record<string, SubscriptionPlan> = {
-  starter: {
-    id: "starter",
-    name: "Frely Starter",
-    price: 14990,
+  basico: {
+    id: "basico",
+    name: "Frely Básico",
+    price: 35000,
     currency: "ARS",
     period: "monthly",
   },
   pro: {
     id: "pro",
     name: "Frely Pro",
-    price: 29990,
+    price: 60000,
     currency: "ARS",
     period: "monthly",
   },
-  business: {
-    id: "business",
-    name: "Frely Business",
-    price: 59990,
+  premium: {
+    id: "premium",
+    name: "Frely Premium",
+    price: 80000,
     currency: "ARS",
     period: "monthly",
   },
+}
+
+// Promo: $35.000 por 6 meses
+export const PROMO_LAUNCH = {
+  price: 35000,
+  months: 6,
+  label: "$35.000 por 6 meses",
 }
 
 // Format price for display

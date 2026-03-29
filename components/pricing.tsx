@@ -4,14 +4,14 @@ import { cn } from "@/lib/utils"
 
 const plans = [
   {
-    name: "Starter",
-    price: "$19",
+    name: "Básico",
+    price: "$35.000",
     period: "/mes",
-    description: "Ideal para empezar a automatizar tu negocio",
+    description: "Hasta 30 clientes/día — peluquerías de barrio, estudios pequeños",
     features: [
-      "1 canal (WhatsApp, IG o Telegram)",
-      "Respuestas automaticas basicas",
-      "Hasta 500 mensajes/mes",
+      "Bot con IA + agendamiento automático",
+      "Consulta de disponibilidad y cancelaciones",
+      "1 canal (WhatsApp)",
       "Soporte por email",
     ],
     highlighted: false,
@@ -19,29 +19,29 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "$49",
+    price: "$60.000",
     period: "/mes",
-    description: "Para negocios que quieren crecer",
+    description: "30 a 50 clientes/día — salones de belleza, restaurantes con reservas",
     features: [
-      "3 canales incluidos",
-      "IA para respuestas inteligentes",
-      "Mensajes ilimitados",
-      "Analisis y reportes",
+      "Todo lo del plan Básico",
+      "Recordatorios de turno opcionales",
+      "IA personalizada para tu negocio",
+      "Analytics y reportes",
       "Soporte prioritario",
     ],
     highlighted: true,
     cta: "Comenzar",
   },
   {
-    name: "Business",
-    price: "$99",
+    name: "Premium",
+    price: "$80.000+",
     period: "/mes",
-    description: "Para equipos y multiples ubicaciones",
+    description: "+50 clientes/día — negocios grandes, cadenas, alta rotación",
     features: [
-      "Canales ilimitados",
-      "IA avanzada personalizada",
-      "Integraciones con CRM",
-      "API disponible",
+      "Todo lo del plan Pro",
+      "Volumen ilimitado",
+      "Integraciones a medida",
+      "Multi-sucursal",
       "Soporte dedicado 24/7",
       "Onboarding personalizado",
     ],
@@ -66,7 +66,16 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 lg:grid-cols-3 items-start">
+        <div className="mt-10 mx-auto max-w-2xl rounded-2xl border-2 border-accent bg-accent/5 p-5 sm:p-6 text-center">
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent">Oferta de lanzamiento</p>
+          <p className="mt-2 text-2xl sm:text-3xl font-bold text-foreground">$35.000 <span className="text-lg font-normal text-muted-foreground">por 6 meses</span></p>
+          <p className="mt-2 text-sm text-muted-foreground">Comprá ahora y asegurate el servicio completo a un precio especial. Después se aplica el plan que elijas.</p>
+          <Button className="mt-4 gap-2 bg-accent text-accent-foreground hover:bg-accent/90">
+            Quiero la oferta <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-3 items-start">
           {plans.map((plan) => (
             <div
               key={plan.name}

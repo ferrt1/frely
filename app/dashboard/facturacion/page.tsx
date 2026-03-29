@@ -33,40 +33,49 @@ const mockSubscription = {
 }
 
 const invoices = [
-  { id: "INV-2026-003", date: "01 Mar 2026", amount: "$29.990", status: "paid" as const, plan: "Pro", mpId: "MP-78291" },
-  { id: "INV-2026-002", date: "01 Feb 2026", amount: "$29.990", status: "paid" as const, plan: "Pro", mpId: "MP-67182" },
-  { id: "INV-2026-001", date: "01 Ene 2026", amount: "$29.990", status: "paid" as const, plan: "Pro", mpId: "MP-56073" },
-  { id: "INV-2025-012", date: "01 Dic 2025", amount: "$14.990", status: "paid" as const, plan: "Starter", mpId: "MP-44964" },
-  { id: "INV-2025-011", date: "01 Nov 2025", amount: "$14.990", status: "paid" as const, plan: "Starter", mpId: "MP-33855" },
+  { id: "INV-2026-003", date: "01 Mar 2026", amount: "$60.000", status: "paid" as const, plan: "Pro", mpId: "MP-78291" },
+  { id: "INV-2026-002", date: "01 Feb 2026", amount: "$60.000", status: "paid" as const, plan: "Pro", mpId: "MP-67182" },
+  { id: "INV-2026-001", date: "01 Ene 2026", amount: "$60.000", status: "paid" as const, plan: "Pro", mpId: "MP-56073" },
+  { id: "INV-2025-012", date: "01 Dic 2025", amount: "$35.000", status: "paid" as const, plan: "Básico", mpId: "MP-44964" },
+  { id: "INV-2025-011", date: "01 Nov 2025", amount: "$35.000", status: "paid" as const, plan: "Básico", mpId: "MP-33855" },
 ]
 
 const plans = [
   {
-    id: "starter",
-    name: "Starter",
-    price: "$14.990",
+    id: "basico",
+    name: "Básico",
+    price: "$35.000",
     period: "/mes",
-    features: ["1,000 mensajes/mes", "1 canal (WhatsApp)", "Respuestas automáticas", "Dashboard básico"],
+    description: "Hasta 30 clientes/día",
+    features: ["Bot con IA + agendamiento", "1 canal (WhatsApp)", "Consulta disponibilidad", "Cancelaciones automáticas"],
     current: false,
   },
   {
     id: "pro",
     name: "Pro",
-    price: "$29.990",
+    price: "$60.000",
     period: "/mes",
-    features: ["5,000 mensajes/mes", "3 canales", "IA personalizada", "Analytics avanzado", "Soporte prioritario", "Base de conocimiento"],
+    description: "30 a 50 clientes/día",
+    features: ["Todo lo del Básico", "Recordatorios de turno", "IA personalizada", "Analytics y reportes", "Soporte prioritario"],
     current: true,
     popular: true,
   },
   {
-    id: "business",
-    name: "Business",
-    price: "$59.990",
+    id: "premium",
+    name: "Premium",
+    price: "$80.000+",
     period: "/mes",
-    features: ["Mensajes ilimitados", "Canales ilimitados", "IA avanzada + GPT-4", "API access", "Soporte dedicado", "Multi-agente", "White label"],
+    description: "+50 clientes/día",
+    features: ["Todo lo del Pro", "Volumen ilimitado", "Integraciones a medida", "Multi-sucursal", "Soporte dedicado 24/7"],
     current: false,
   },
 ]
+
+const promoLaunch = {
+  price: "$35.000",
+  months: 6,
+  label: "Oferta de lanzamiento: $35.000 por 6 meses",
+}
 
 // Simulated MercadoPago payment data
 const mockPaymentData = {
@@ -449,6 +458,20 @@ export default function FacturacionPage() {
               <p className="text-xs text-muted-foreground">WhatsApp + Instagram conectados</p>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Promo Banner */}
+      <Card className="border-2 border-[#2ecc71] bg-[#2ecc71]/5">
+        <CardContent className="p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <Badge className="bg-[#2ecc71] text-white border-0 text-[10px] mb-2">Oferta de lanzamiento</Badge>
+            <h3 className="text-lg font-bold">{promoLaunch.price} <span className="text-sm font-normal text-muted-foreground">por {promoLaunch.months} meses</span></h3>
+            <p className="text-xs text-muted-foreground mt-1">Comprá ahora y asegurate el servicio completo a precio especial. Después se aplica el plan que elijas.</p>
+          </div>
+          <Button className="bg-[#2ecc71] text-white hover:bg-[#2ecc71]/90 gap-1.5 shrink-0" size="sm" onClick={() => handlePayPlan("promo")}>
+            <CreditCard className="h-3.5 w-3.5" />Quiero la oferta
+          </Button>
         </CardContent>
       </Card>
 
